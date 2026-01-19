@@ -2,7 +2,13 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- إعدادات Meta محسنة للتوافق مع جميع الأجهزة -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0c2d41">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
     <title>نُبـل - أداة التعلم الذكية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -38,6 +44,13 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* إزالة اللون الأزرق عند النقر على iOS */
+            -webkit-touch-callout: none; /* منع القائمة السياقية على iOS */
+        }
+        
+        html {
+            -webkit-text-size-adjust: 100%; /* منع تغيير حجم النص على iOS */
+            -webkit-font-smoothing: antialiased;
         }
         
         body {
@@ -48,12 +61,22 @@
             padding: 0;
             line-height: 1.6;
             overflow-x: hidden;
+            /* تحسينات لأجهزة iOS */
+            -webkit-overflow-scrolling: touch; /* تمرير سلس على iOS */
+            overscroll-behavior-y: none; /* منع تأثير الارتداد الزائد */
+        }
+        
+        /* تحسينات للأجهزة المحمولة */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
         }
         
         /* تغيير اتجاه النص للغة الإنجليزية */
         body.english-mode {
             direction: ltr;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         body.english-mode .header p,
@@ -106,6 +129,13 @@
             left: 0;
         }
         
+        /* تحسينات للأزرار على iOS */
+        button, select, textarea, input {
+            font-size: 16px !important; /* منع التكبير على iOS */
+            -webkit-appearance: none; /* إزالة المظهر الافتراضي على iOS */
+            border-radius: 0; /* إعادة تعيين الحدود */
+        }
+        
         /* البار العلوي */
         .top-bar {
             background: rgba(12, 45, 65, 0.95);
@@ -118,6 +148,9 @@
             box-shadow: var(--shadow-light);
             font-weight: 500;
             letter-spacing: 0.3px;
+            /* تحسينات للموبايل */
+            padding-top: max(14px, env(safe-area-inset-top));
+            padding-bottom: max(14px, env(safe-area-inset-bottom));
         }
         
         /* الهيدر الرئيسي */
@@ -128,6 +161,8 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
+            /* تحسينات للموبايل */
+            padding-top: max(35px, calc(env(safe-area-inset-top) + 20px));
         }
         
         .header::before {
@@ -168,7 +203,6 @@
             font-size: 3.2rem;
             font-weight: 900;
             margin-bottom: 0;
-            /* لون واحد بدون تدرج - أزرق فاتح جذاب */
             color: #4ecdc4;
             text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             letter-spacing: -1px;
@@ -210,6 +244,8 @@
             max-width: 1000px;
             margin: 0 auto;
             padding: 30px 20px 50px;
+            /* تحسينات للموبايل */
+            padding-bottom: max(50px, env(safe-area-inset-bottom));
         }
         
         /* بطاقة التحكم */
@@ -266,6 +302,8 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
+            /* تحسينات للموبايل */
+            touch-action: manipulation; /* تحسين الاستجابة للمس */
         }
         
         .mode-tab::after {
@@ -360,12 +398,15 @@
             font-family: 'Tajawal', sans-serif;
             font-size: 1.05rem;
             transition: var(--transition);
+            /* تحسينات للموبايل */
+            -webkit-appearance: none;
+            appearance: none;
         }
         
         body.english-mode select,
         body.english-mode textarea,
         body.english-mode input[type="file"] {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         select:focus, textarea:focus, input[type="file"]:focus {
@@ -385,6 +426,8 @@
             min-height: 150px;
             resize: vertical;
             line-height: 1.7;
+            /* تحسينات للموبايل */
+            touch-action: manipulation;
         }
         
         /* زر التنفيذ */
@@ -408,10 +451,13 @@
             position: relative;
             overflow: hidden;
             letter-spacing: 0.5px;
+            /* تحسينات للموبايل */
+            touch-action: manipulation;
+            -webkit-appearance: none;
         }
         
         body.english-mode .execute-btn {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .execute-btn::before {
@@ -541,6 +587,8 @@
             gap: 18px;
             position: relative;
             overflow: hidden;
+            /* تحسينات للموبايل */
+            touch-action: manipulation;
         }
         
         .option::before {
@@ -690,10 +738,13 @@
             gap: 12px;
             width: 100%;
             margin-top: 20px;
+            /* تحسينات للموبايل */
+            touch-action: manipulation;
+            -webkit-appearance: none;
         }
         
         body.english-mode .wrong-feedback-btn {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .wrong-feedback-btn:hover {
@@ -769,6 +820,8 @@
             transition: var(--transition);
             text-align: center;
             position: relative;
+            /* تحسينات للموبايل */
+            touch-action: manipulation;
         }
         
         .flashcard::before {
@@ -832,10 +885,13 @@
             justify-content: center;
             align-items: center;
             gap: 12px;
+            /* تحسينات للموبايل */
+            touch-action: manipulation;
+            -webkit-appearance: none;
         }
         
         body.english-mode .flashcard-btn {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         
         .flashcard-btn:hover {
@@ -989,6 +1045,8 @@
             text-align: center;
             cursor: pointer;
             margin-bottom: 15px;
+            /* تحسينات للموبايل */
+            touch-action: manipulation;
         }
         
         .file-upload-area:hover {
@@ -1033,6 +1091,8 @@
             align-items: center;
             gap: 8px;
             font-weight: 600;
+            /* تحسينات للموبايل */
+            touch-action: manipulation;
         }
         
         .upload-option-btn:hover {
@@ -1078,6 +1138,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transform: scaleX(-1); /* عكس الصورة للكاميرا الأمامية */
         }
         
         .camera-controls {
@@ -1103,6 +1164,8 @@
             cursor: pointer;
             transition: var(--transition);
             font-size: 1.5rem;
+            /* تحسينات للموبايل */
+            touch-action: manipulation;
         }
         
         .camera-btn:hover {
@@ -1188,10 +1251,41 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* تحسينات مخصصة لأجهزة iOS */
+        @supports (-webkit-touch-callout: none) {
+            /* تحسينات للتمرير على iOS */
+            .control-card, .question, .flashcard, .summary {
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* تحسينات للإدخال على iOS */
+            input, textarea, select {
+                font-size: 16px !important; /* منع التكبير التلقائي */
+            }
+            
+            /* تحسينات للأزرار على iOS */
+            button {
+                cursor: pointer;
+                -webkit-user-select: none;
+                user-select: none;
+            }
+        }
+        
+        /* تحسينات مخصصة لأجهزة Android */
+        @supports not (-webkit-touch-callout: none) {
+            /* تحسينات للخطوط على Android */
+            body {
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+        }
+        
         /* تحسينات للأجهزة المحمولة */
         @media (max-width: 768px) {
             .header {
                 padding: 25px 15px 20px;
+                padding-top: max(25px, calc(env(safe-area-inset-top) + 15px));
             }
             
             .logo-container {
@@ -1233,6 +1327,7 @@
             
             .container {
                 padding: 20px 15px 40px;
+                padding-bottom: max(40px, calc(env(safe-area-inset-bottom) + 20px));
             }
             
             .control-card {
@@ -1296,6 +1391,15 @@
             .camera-container {
                 height: 250px;
             }
+            
+            /* زيادة مساحة النقر على الهواتف */
+            button, .option, .mode-tab, .upload-option-btn {
+                min-height: 44px; /* الحد الأدنى لمساحة النقر على iOS */
+            }
+            
+            .option {
+                padding: 18px;
+            }
         }
         
         /* تحسينات للأجهزة اللوحية */
@@ -1305,9 +1409,63 @@
             }
         }
         
+        /* تحسينات للشاشات الكبيرة */
+        @media (min-width: 1025px) {
+            .container {
+                max-width: 1000px;
+            }
+        }
+        
         /* إخفاء العناصر */
         .hidden {
             display: none !important;
+        }
+        
+        /* تحسينات للوضع الأفقي على الموبايل */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .header {
+                padding: 15px 20px 10px;
+                padding-top: max(15px, env(safe-area-inset-top));
+            }
+            
+            .logo-container {
+                flex-direction: row;
+                gap: 15px;
+                margin-bottom: 10px;
+            }
+            
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.8rem;
+            }
+            
+            .logo-text {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+                line-height: 1.5;
+            }
+            
+            .control-card {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .mode-tab {
+                padding: 15px 10px;
+            }
+            
+            .mode-tab i {
+                font-size: 1.8rem;
+                margin-bottom: 10px;
+            }
+            
+            .mode-tab span {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -1446,14 +1604,22 @@
     
     <!-- الأصوات -->
     <audio id="correct-sound" preload="auto">
-        <source src="https://media.vocaroo.com/mp3/19lcrilHKuHR" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
     </audio>
     
     <audio id="wrong-sound" preload="auto">
-        <source src="https://media.vocaroo.com/mp3/1ooZTr9sHVXS" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
     </audio>
 
     <script>
+        // كائن للتحقق من نوع الجهاز
+        const deviceInfo = {
+            isIOS: /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream,
+            isAndroid: /Android/.test(navigator.userAgent),
+            isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+            isTablet: /iPad|Android(?!.*Mobile)/i.test(navigator.userAgent)
+        };
+        
         const API = "https://smarttest-0ycc.onrender.com";
         
         // العناصر الأساسية
@@ -1663,13 +1829,32 @@
         function startCamera() {
             cameraContainer.style.display = 'flex';
             
-            navigator.mediaDevices.getUserMedia({ 
-                video: { facingMode: 'environment' },
-                audio: false 
-            })
+            // إعدادات الكاميرا حسب الجهاز
+            const constraints = {
+                video: {
+                    facingMode: 'environment',
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 }
+                },
+                audio: false
+            };
+            
+            // تحسينات لأجهزة iOS
+            if (deviceInfo.isIOS) {
+                constraints.video = {
+                    facingMode: 'environment',
+                    width: { min: 640, ideal: 1280, max: 1920 },
+                    height: { min: 480, ideal: 720, max: 1080 }
+                };
+            }
+            
+            navigator.mediaDevices.getUserMedia(constraints)
             .then(function(mediaStream) {
                 stream = mediaStream;
                 cameraFeed.srcObject = stream;
+                
+                // تفعيل زر التقاط الصورة
+                captureBtn.disabled = false;
             })
             .catch(function(err) {
                 console.error("Error accessing camera: ", err);
@@ -1678,6 +1863,14 @@
                     "Unable to access camera. Please check permissions." : 
                     "تعذر الوصول إلى الكاميرا. الرجاء التحقق من الأذونات.", 
                 'error');
+                captureBtn.disabled = true;
+                
+                // العودة إلى خيار الصورة
+                uploadOptions.forEach(opt => {
+                    if (opt.dataset.uploadType === 'image') {
+                        opt.click();
+                    }
+                });
             });
         }
         
@@ -1695,12 +1888,24 @@
         
         // التقاط صورة من الكاميرا
         captureBtn.addEventListener('click', function() {
-            if (!stream) return;
+            if (!stream || this.disabled) return;
             
             const canvas = document.createElement('canvas');
-            canvas.width = cameraFeed.videoWidth;
-            canvas.height = cameraFeed.videoHeight;
-            canvas.getContext('2d').drawImage(cameraFeed, 0, 0, canvas.width, canvas.height);
+            const video = cameraFeed;
+            
+            // تحديد أبعاد القماش بناءً على أبعاد الفيديو
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            const context = canvas.getContext('2d');
+            
+            // عكس الصورة للكاميرا الأمامية
+            if (stream.getVideoTracks()[0].getSettings().facingMode === 'user') {
+                context.translate(canvas.width, 0);
+                context.scale(-1, 1);
+            }
+            
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
             
             canvas.toBlob(function(blob) {
                 const file = new File([blob], 'camera-capture.jpg', { type: 'image/jpeg' });
@@ -2145,10 +2350,14 @@
             try {
                 if (type === 'correct') {
                     correctSound.currentTime = 0;
-                    correctSound.play();
+                    correctSound.play().catch(e => {
+                        console.log('تعذر تشغيل الصوت:', e);
+                    });
                 } else if (type === 'wrong') {
                     wrongSound.currentTime = 0;
-                    wrongSound.play();
+                    wrongSound.play().catch(e => {
+                        console.log('تعذر تشغيل الصوت:', e);
+                    });
                 }
             } catch (e) {
                 console.log('تعذر تشغيل الصوت:', e);
@@ -2191,18 +2400,48 @@
             }
             
             // تحسين تجربة المستخدم على الهواتف
-            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            if (deviceInfo.isMobile) {
                 document.body.classList.add('mobile-device');
                 
-                // منع التكبير عند النقر على المدخلات
-                const inputs = document.querySelectorAll('input, textarea, select');
-                inputs.forEach(input => {
-                    input.addEventListener('focus', () => {
-                        setTimeout(() => {
-                            document.body.style.transform = 'scale(1)';
-                        }, 100);
+                // منع التكبير عند النقر على المدخلات (خاصة iOS)
+                if (deviceInfo.isIOS) {
+                    const inputs = document.querySelectorAll('input, textarea, select');
+                    inputs.forEach(input => {
+                        input.addEventListener('focus', () => {
+                            setTimeout(() => {
+                                document.body.style.transform = 'scale(1)';
+                                window.scrollTo(0, 0);
+                            }, 100);
+                        });
                     });
+                }
+                
+                // تحسينات للتمرير السلس
+                document.querySelectorAll('.container, .control-card, .question, .flashcard, .summary').forEach(el => {
+                    el.style.webkitOverflowScrolling = 'touch';
                 });
+            }
+            
+            // تحسينات لأجهزة iOS
+            if (deviceInfo.isIOS) {
+                // إضافة خاصية touch-action للعناصر القابلة للنقر
+                document.querySelectorAll('button, .option, .mode-tab, .flashcard').forEach(el => {
+                    el.style.cursor = 'pointer';
+                });
+                
+                // تحسينات للكاميرا على iOS
+                document.addEventListener('click', function(e) {
+                    if (e.target.matches('button, input, textarea, select')) {
+                        e.target.style.fontSize = '16px';
+                    }
+                }, true);
+            }
+            
+            // تحسينات لأجهزة Android
+            if (deviceInfo.isAndroid) {
+                // تحسينات للخطوط على Android
+                document.body.style.textRendering = 'optimizeLegibility';
+                document.body.style.webkitFontSmoothing = 'antialiased';
             }
             
             // توقف عن تشغيل الكاميرا عند إغلاق الصفحة
@@ -2213,6 +2452,28 @@
                     });
                 }
             });
+            
+            // تحسينات لشاشات Notch (iPhone X وما بعده)
+            const style = document.createElement('style');
+            style.textContent = `
+                @supports (padding: max(0px)) {
+                    .top-bar, .header, .container {
+                        padding-left: max(20px, env(safe-area-inset-left));
+                        padding-right: max(20px, env(safe-area-inset-right));
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // إصلاح مشكلة الـ 100vh على iOS
+            function setVhProperty() {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
+            
+            setVhProperty();
+            window.addEventListener('resize', setVhProperty);
+            window.addEventListener('orientationchange', setVhProperty);
         });
     </script>
 </body>
