@@ -2,29 +2,36 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Tests Platform - منصة الاختبارات الذكية</title>
-    
-    <!-- الخطوط -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- أيقونات -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>نُبـل - أداة التعلم الذكية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary: #0A3D62;
-            --secondary: #159895;
-            --accent: #00C1D4;
-            --light: #F5F9FF;
-            --dark: #071E36;
-            --success: #2E7D32;
-            --error: #C62828;
-            --warning: #FF9800;
-            --card-bg: #FFFFFF;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            --radius: 16px;
+            --primary-dark: #0c2d41;
+            --primary: #1a4865;
+            --primary-light: #2a6a8f;
+            --accent: #2a9d8f;
+            --accent-light: #4ecdc4;
+            --accent-dark: #21867a;
+            --accent-transparent: rgba(42, 157, 143, 0.15);
+            --danger: #e76f51;
+            --danger-light: #f4a261;
+            --warning: #e9c46a;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --success-bg: rgba(42, 157, 143, 0.15);
+            --error-bg: rgba(231, 111, 81, 0.15);
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --border-radius: 20px;
+            --border-radius-sm: 12px;
             --transition: all 0.3s ease;
+            --gold: #ffd166;
+            --gold-light: #ffe8a3;
         }
         
         * {
@@ -34,1633 +41,2177 @@
         }
         
         body {
-            font-family: 'Tajawal', 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #0A3D62 0%, #071E36 100%);
-            color: var(--dark);
-            line-height: 1.6;
-            padding-top: 80px;
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+            color: var(--light);
             min-height: 100vh;
-            transition: var(--transition);
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
         }
         
+        /* تغيير اتجاه النص للغة الإنجليزية */
         body.english-mode {
-            font-family: 'Poppins', 'Tajawal', sans-serif;
             direction: ltr;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        body.english-mode .header,
-        body.english-mode .logo,
-        body.english-mode .tabs,
-        body.english-mode .tab-content,
-        body.english-mode .option-card,
-        body.english-mode .btn,
-        body.english-mode .result-box,
-        body.english-mode .wrong-answers-btn {
-            direction: ltr;
+        body.english-mode .header p,
+        body.english-mode .question-text,
+        body.english-mode .option-text,
+        body.english-mode .flashcard-front,
+        body.english-mode .flashcard-back,
+        body.english-mode .summary-point-text,
+        body.english-mode .instant-feedback-content,
+        body.english-mode .wrong-feedback-content {
+            text-align: left;
         }
         
-        body.english-mode .option-number {
-            margin-right: 15px;
-            margin-left: 0;
-        }
-        
-        body.english-mode .feedback {
+        body.english-mode .summary-section-title {
             border-right: none;
-            border-left: 4px solid var(--secondary);
+            border-left: 5px solid var(--accent);
+            padding-right: 0;
+            padding-left: 20px;
         }
         
-        /* الهيدر الثابت */
+        body.english-mode .summary-point {
+            border-right: none;
+            border-left: 5px solid;
+        }
+        
+        body.english-mode .instant-feedback,
+        body.english-mode .wrong-feedback-area {
+            border-right: none;
+            border-left: 5px solid;
+        }
+        
+        body.english-mode .wrong-feedback-item {
+            border-right: none;
+            border-left: 4px solid var(--danger);
+        }
+        
+        body.english-mode .question-number,
+        body.english-mode .summary-point,
+        body.english-mode .option {
+            text-align: left;
+        }
+        
+        body.english-mode .summary-points {
+            padding-right: 0;
+            padding-left: 25px;
+        }
+        
+        body.english-mode .option::before {
+            right: auto;
+            left: 0;
+        }
+        
+        /* البار العلوي */
+        .top-bar {
+            background: rgba(12, 45, 65, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 14px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 0.95rem;
+            color: var(--accent-light);
+            box-shadow: var(--shadow-light);
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+        
+        /* الهيدر الرئيسي */
         .header {
-            position: fixed;
+            padding: 35px 20px 25px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(12, 45, 65, 0.9) 0%, rgba(26, 72, 101, 0.9) 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            height: 80px;
+            height: 100%;
+            background: radial-gradient(circle at 30% 50%, rgba(74, 144, 226, 0.15) 0%, transparent 70%);
+            pointer-events: none;
         }
         
-        .logo {
+        .logo-container {
             display: flex;
             align-items: center;
-            gap: 15px;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
         }
         
         .logo-icon {
-            font-size: 28px;
-            background: rgba(255, 255, 255, 0.15);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 10px 25px rgba(42, 157, 143, 0.4);
+            transform: rotate(-5deg);
+            border: 3px solid rgba(255, 255, 255, 0.2);
         }
         
-        .logo-text h1 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 5px;
+        .logo-text {
+            font-size: 3.2rem;
+            font-weight: 900;
+            margin-bottom: 0;
+            /* لون واحد بدون تدرج - أزرق فاتح جذاب */
+            color: #4ecdc4;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            letter-spacing: -1px;
+            position: relative;
         }
         
-        .logo-text p {
-            font-size: 0.85rem;
-            opacity: 0.9;
-            font-weight: 300;
+        /* إضافة ضمة على حرف اللام */
+        .logo-text::after {
+            content: "ُ";
+            position: absolute;
+            font-size: 2rem;
+            color: #ffd166;
+            right: -5px;
+            top: -15px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
         
-        .language-switch {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 8px 15px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: var(--transition);
+        body.english-mode .logo-text::after {
+            right: auto;
+            left: -5px;
         }
         
-        .language-switch:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-        
-        .language-switch i {
-            font-size: 1.2rem;
-        }
-        
-        /* المحتوى الرئيسي */
-        .container {
-            max-width: 1200px;
+        .header p {
+            font-size: 1.25rem;
+            color: var(--gray-light);
+            max-width: 800px;
             margin: 0 auto;
-            padding: 30px 20px;
+            opacity: 0.95;
+            font-weight: 300;
+            line-height: 1.8;
         }
         
-        /* كرت الواجهة الرئيسية */
-        .dashboard {
-            background: var(--card-bg);
-            border-radius: var(--radius);
+        .header p span {
+            font-weight: 600;
+        }
+        
+        /* الحاوية الرئيسية */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px 50px;
+        }
+        
+        /* بطاقة التحكم */
+        .control-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(15px);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
             box-shadow: var(--shadow);
+            position: relative;
             overflow: hidden;
+        }
+        
+        .control-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to left, var(--accent), var(--accent-light));
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+        
+        body.english-mode .control-card::before {
+            right: auto;
+            left: 0;
+            background: linear-gradient(to right, var(--accent), var(--accent-light));
+        }
+        
+        /* أزرار التبويب */
+        .mode-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
             margin-bottom: 30px;
         }
         
-        /* التبويبات */
-        .tabs {
-            display: flex;
-            background: #f8fafc;
-            border-bottom: 1px solid #eaeaea;
-            padding: 0;
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-        
-        .tabs::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .tab-btn {
+        .mode-tab {
             flex: 1;
-            min-width: 200px;
+            min-width: 170px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-sm);
             padding: 22px 15px;
-            background: none;
-            border: none;
-            border-bottom: 3px solid transparent;
-            color: #64748b;
-            font-size: 1.1rem;
-            font-weight: 600;
+            text-align: center;
             cursor: pointer;
+            transition: var(--transition);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mode-tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to left, var(--accent), transparent);
+            transform: translateX(100%);
             transition: var(--transition);
         }
         
-        .tab-btn i {
+        body.english-mode .mode-tab::after {
+            right: auto;
+            left: 0;
+            background: linear-gradient(to right, var(--accent), transparent);
+            transform: translateX(-100%);
+        }
+        
+        .mode-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .mode-tab:hover::after {
+            transform: translateX(0);
+        }
+        
+        body.english-mode .mode-tab:hover::after {
+            transform: translateX(0);
+        }
+        
+        .mode-tab.active {
+            background: rgba(42, 157, 143, 0.2);
+            border-color: var(--accent);
+            box-shadow: 0 8px 25px rgba(42, 157, 143, 0.25);
+        }
+        
+        .mode-tab.active::after {
+            transform: translateX(0);
+            background: linear-gradient(to left, var(--accent), var(--accent-light));
+        }
+        
+        body.english-mode .mode-tab.active::after {
+            background: linear-gradient(to right, var(--accent), var(--accent-light));
+        }
+        
+        .mode-tab i {
+            font-size: 2.3rem;
+            margin-bottom: 15px;
+            color: var(--accent-light);
+            transition: var(--transition);
+        }
+        
+        .mode-tab.active i {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+        
+        .mode-tab span {
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--light);
+        }
+        
+        /* إعدادات التحكم */
+        .control-group {
+            margin-bottom: 30px;
+        }
+        
+        .control-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 700;
+            color: var(--accent-light);
+            font-size: 1.15rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        select, textarea, input[type="file"] {
+            width: 100%;
+            padding: 18px 22px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--border-radius-sm);
+            color: var(--light);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.05rem;
+            transition: var(--transition);
+        }
+        
+        body.english-mode select,
+        body.english-mode textarea,
+        body.english-mode input[type="file"] {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        select:focus, textarea:focus, input[type="file"]:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(42, 157, 143, 0.25);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        select option {
+            background: var(--primary-dark);
+            color: var(--light);
+            padding: 12px;
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+            line-height: 1.7;
+        }
+        
+        /* زر التنفيذ */
+        .execute-btn {
+            width: 100%;
+            padding: 22px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            font-family: 'Tajawal', sans-serif;
             font-size: 1.3rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 8px 25px rgba(42, 157, 143, 0.4);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
         }
         
-        .tab-btn:hover {
-            color: var(--primary);
-            background: rgba(10, 61, 98, 0.05);
+        body.english-mode .execute-btn {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        .tab-btn.active {
-            color: var(--secondary);
-            border-bottom-color: var(--secondary);
-            background: white;
+        .execute-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
         }
         
-        /* محتوى التبويبات */
-        .tab-content {
-            padding: 40px;
+        .execute-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(42, 157, 143, 0.5);
+        }
+        
+        .execute-btn:hover::before {
+            transform: translateX(100%);
+        }
+        
+        .execute-btn:active {
+            transform: translateY(-2px);
+        }
+        
+        /* منطقة الإخراج */
+        #out {
+            margin-top: 35px;
+        }
+        
+        /* تصميم الأسئلة */
+        .question {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(15px);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .question::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to left, var(--primary-light), transparent);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+        
+        body.english-mode .question::before {
+            right: auto;
+            left: 0;
+            background: linear-gradient(to right, var(--primary-light), transparent);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        
+        body.english-mode .question-header {
+            flex-direction: row-reverse;
+        }
+        
+        .question-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--light);
+            line-height: 1.6;
+            flex: 1;
+        }
+        
+        .question-number {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            flex-shrink: 0;
+            margin-left: 20px;
+            font-size: 1.4rem;
+            box-shadow: 0 5px 15px rgba(42, 157, 143, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        body.english-mode .question-number {
+            margin-left: 0;
+            margin-right: 20px;
+        }
+        
+        /* خيارات الأسئلة */
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+        
+        @media (max-width: 768px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--border-radius-sm);
+            padding: 22px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+        
+        body.english-mode .option::before {
+            right: auto;
+            left: 0;
+        }
+        
+        .option:hover {
+            background: rgba(255, 255, 255, 0.09);
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .option:hover::before {
+            background: var(--accent-light);
+        }
+        
+        .option.disabled {
+            pointer-events: none;
+            opacity: 0.9;
+        }
+        
+        .option.correct {
+            background: var(--success-bg);
+            border-color: var(--accent);
+            box-shadow: 0 6px 20px rgba(42, 157, 143, 0.25);
+        }
+        
+        .option.correct::before {
+            background: var(--accent);
+        }
+        
+        .option.wrong {
+            background: var(--error-bg);
+            border-color: var(--danger);
+            box-shadow: 0 6px 20px rgba(231, 111, 81, 0.25);
+        }
+        
+        .option.wrong::before {
+            background: var(--danger);
+        }
+        
+        .option-letter {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+        
+        .option.correct .option-letter {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 12px rgba(42, 157, 143, 0.4);
+        }
+        
+        .option.wrong .option-letter {
+            background: var(--danger);
+            color: white;
+            box-shadow: 0 4px 12px rgba(231, 111, 81, 0.4);
+        }
+        
+        .option-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            flex: 1;
+        }
+        
+        /* التغذية الراجعة الفورية للإجابة الصحيحة */
+        .instant-feedback {
+            margin-top: 25px;
+            padding: 25px;
+            background: rgba(42, 157, 143, 0.1);
+            border-radius: var(--border-radius-sm);
+            border-right: 5px solid var(--accent);
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .instant-feedback.show {
+            display: block;
+        }
+        
+        .instant-feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        
+        .instant-feedback-header i {
+            font-size: 1.5rem;
+        }
+        
+        .instant-feedback-header h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 0;
+        }
+        
+        .instant-feedback-content {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--light);
+            padding-right: 10px;
+        }
+        
+        body.english-mode .instant-feedback-content {
+            padding-right: 0;
+            padding-left: 10px;
+        }
+        
+        /* زر التغذية الراجعة للخيارات الخاطئة */
+        .wrong-feedback-btn {
+            background: rgba(231, 111, 81, 0.1);
+            border: 2px solid rgba(231, 111, 81, 0.3);
+            border-radius: var(--border-radius-sm);
+            color: var(--danger-light);
+            padding: 18px 28px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        body.english-mode .wrong-feedback-btn {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .wrong-feedback-btn:hover {
+            background: rgba(231, 111, 81, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(231, 111, 81, 0.2);
+        }
+        
+        /* منطقة التغذية الراجعة للخيارات الخاطئة */
+        .wrong-feedback-area {
+            margin-top: 25px;
+            padding: 25px;
+            background: rgba(12, 45, 65, 0.8);
+            border-radius: var(--border-radius-sm);
+            border-right: 5px solid var(--danger);
             display: none;
         }
         
-        .tab-content.active {
+        .wrong-feedback-area.show {
             display: block;
             animation: fadeIn 0.5s ease;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* عناصر النموذج */
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 1.1rem;
-        }
-        
-        .form-input, .form-select, .form-textarea {
-            width: 100%;
-            padding: 16px 20px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-family: 'Tajawal', 'Poppins', sans-serif;
-            transition: var(--transition);
-            background: white;
-        }
-        
-        .form-input:focus, .form-select:focus, .form-textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(0, 193, 212, 0.1);
-        }
-        
-        .form-textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-        
-        /* أزرار */
-        .btn {
-            display: inline-flex;
+        .wrong-feedback-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: var(--danger-light);
+            display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 12px;
+        }
+        
+        .wrong-feedback-item {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(231, 111, 81, 0.08);
+            border-radius: var(--border-radius-sm);
+            border-right: 4px solid var(--danger);
+        }
+        
+        .wrong-feedback-header {
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
             gap: 10px;
-            padding: 18px 30px;
-            border: none;
-            border-radius: 12px;
             font-size: 1.1rem;
+            color: var(--danger-light);
+        }
+        
+        .wrong-feedback-content {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #f0f0f0;
+        }
+        
+        /* تصميم البطاقات التعليمية */
+        .flashcard {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(15px);
+            border-radius: var(--border-radius);
+            padding: 50px 40px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: var(--shadow);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+        }
+        
+        .flashcard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(74, 144, 226, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+            border-radius: var(--border-radius);
+        }
+        
+        .flashcard:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--light);
+            line-height: 1.7;
+            max-width: 800px;
+        }
+        
+        .flashcard-back {
+            color: var(--accent-light);
+        }
+        
+        .flashcard-counter {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            color: var(--gray-light);
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 25px;
+            border-radius: 30px;
+        }
+        
+        .flashcard-nav {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .flashcard-btn {
+            background: rgba(255, 255, 255, 0.07);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--border-radius-sm);
+            color: var(--light);
+            padding: 18px 35px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.15rem;
             font-weight: 700;
             cursor: pointer;
             transition: var(--transition);
-            font-family: 'Tajawal', 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        body.english-mode .flashcard-btn {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .flashcard-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* تصميم التلخيص */
+        .summary {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(15px);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            margin-bottom: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        
+        .summary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
             width: 100%;
+            height: 4px;
+            background: linear-gradient(to left, var(--gold), var(--accent-light));
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
         }
         
-        .btn-primary {
-            background: linear-gradient(90deg, var(--secondary) 0%, var(--accent) 100%);
-            color: white;
-            box-shadow: 0 5px 15px rgba(21, 152, 149, 0.3);
+        body.english-mode .summary::before {
+            right: auto;
+            left: 0;
+            background: linear-gradient(to right, var(--gold), var(--accent-light));
         }
         
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(21, 152, 149, 0.4);
+        .summary-title {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 35px;
+            color: var(--gold);
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
         
-        .btn-secondary {
-            background: #f1f5f9;
-            color: var(--primary);
-            border: 2px solid #cbd5e1;
+        .summary-section {
+            margin-bottom: 40px;
         }
         
-        .btn-secondary:hover {
-            background: #e2e8f0;
+        .summary-section-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-right: 20px;
+            border-right: 5px solid var(--accent);
         }
         
-        .btn-wrong-answers {
-            background: linear-gradient(90deg, #FF9800 0%, #FF5722 100%);
-            color: white;
-            margin-top: 20px;
-            width: auto;
-            padding: 12px 25px;
+        .summary-points {
+            list-style-type: none;
+            padding-right: 25px;
         }
         
-        .btn-lg {
-            padding: 20px 35px;
-            font-size: 1.2rem;
-        }
-        
-        /* بطاقات الخيارات */
-        .option-card {
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            cursor: pointer;
+        .summary-point {
+            margin-bottom: 22px;
+            padding: 22px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: var(--border-radius-sm);
+            border-right: 5px solid;
             transition: var(--transition);
             position: relative;
             overflow: hidden;
         }
         
-        .option-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        .summary-point::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
         }
         
-        .option-card.selected {
-            border-color: var(--secondary);
-            background: rgba(21, 152, 149, 0.05);
+        body.english-mode .summary-point::before {
+            transform: translateX(100%);
         }
         
-        .option-card.correct {
-            border-color: var(--success);
-            background: rgba(46, 125, 50, 0.08);
-            animation: correctPulse 0.5s ease;
+        .summary-point:hover {
+            background: rgba(255, 255, 255, 0.07);
+            transform: translateX(-10px);
         }
         
-        .option-card.incorrect {
-            border-color: var(--error);
-            background: rgba(198, 40, 40, 0.08);
-            animation: incorrectShake 0.5s ease;
+        body.english-mode .summary-point:hover {
+            transform: translateX(10px);
         }
         
-        @keyframes correctPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-            100% { transform: scale(1); }
+        .summary-point:hover::before {
+            transform: translateX(100%);
         }
         
-        @keyframes incorrectShake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+        body.english-mode .summary-point:hover::before {
+            transform: translateX(-100%);
         }
         
-        .option-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            background: #f1f5f9;
-            border-radius: 50%;
-            margin-left: 15px;
-            font-weight: 700;
-            color: var(--primary);
+        .point-1 { border-color: #2a9d8f; }
+        .point-2 { border-color: #4ecdc4; }
+        .point-3 { border-color: #ffd166; }
+        .point-4 { border-color: #f4a261; }
+        .point-5 { border-color: #e76f51; }
+        .point-6 { border-color: #6a8eae; }
+        .point-7 { border-color: #9d4edd; }
+        
+        .summary-point i {
+            margin-left: 12px;
+            color: inherit;
+            font-size: 1.2rem;
         }
         
-        .option-card.correct .option-number {
-            background: var(--success);
-            color: white;
+        body.english-mode .summary-point i {
+            margin-left: 0;
+            margin-right: 12px;
         }
         
-        .option-card.incorrect .option-number {
-            background: var(--error);
-            color: white;
+        .summary-point-text {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            font-weight: 500;
         }
         
-        .feedback {
-            margin-top: 15px;
-            padding: 15px;
-            background: #f8fafc;
-            border-radius: 10px;
-            border-right: 4px solid var(--secondary);
-            font-size: 0.95rem;
-            display: none;
-        }
-        
-        .option-card.show-feedback .feedback {
-            display: block;
-        }
-        
-        .wrong-feedback {
-            margin-top: 15px;
-            padding: 15px;
-            background: #fff8e1;
-            border-radius: 10px;
-            border-right: 4px solid #FF9800;
-            font-size: 0.95rem;
-            display: none;
-        }
-        
-        .wrong-feedback.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        /* النتيجة */
-        .result-box {
-            background: white;
-            border-radius: var(--radius);
-            padding: 40px;
+        /* تخصيص خيارات تحميل الملف */
+        .file-upload-area {
+            width: 100%;
+            padding: 18px 22px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--border-radius-sm);
+            color: var(--light);
+            transition: var(--transition);
             text-align: center;
-            box-shadow: var(--shadow);
-            margin-bottom: 30px;
+            cursor: pointer;
+            margin-bottom: 15px;
         }
         
-        .score-circle {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
-            margin: 0 auto 30px;
+        .file-upload-area:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-light);
+        }
+        
+        .file-upload-area input[type="file"] {
+            display: none;
+        }
+        
+        .file-upload-label {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            box-shadow: 0 10px 30px rgba(21, 152, 149, 0.3);
-        }
-        
-        .score-value {
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1;
-        }
-        
-        .score-total {
-            font-size: 1.5rem;
-            opacity: 0.9;
-        }
-        
-        .result-message {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        
-        /* الملخص */
-        .summary-box {
-            background: white;
-            border-radius: var(--radius);
-            padding: 35px;
-            box-shadow: var(--shadow);
-            white-space: pre-wrap;
-            line-height: 1.8;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-        
-        .summary-box::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        .summary-box::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        
-        .summary-box::-webkit-scrollbar-thumb {
-            background: var(--secondary);
-            border-radius: 10px;
-        }
-        
-        /* تقدم الاختبار */
-        .progress-container {
-            margin-bottom: 30px;
-            background: #f1f5f9;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 10px;
-            background: linear-gradient(90deg, var(--secondary) 0%, var(--accent) 100%);
-            width: 0%;
-            transition: width 0.5s ease;
-            border-radius: 12px;
-        }
-        
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        /* تذييل الصفحة */
-        .footer {
-            text-align: center;
-            padding: 30px 20px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-            margin-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* إشعارات */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            display: flex;
             align-items: center;
             gap: 15px;
-            z-index: 1000;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
+            cursor: pointer;
         }
         
-        .notification.show {
-            transform: translateY(0);
-            opacity: 1;
+        .file-upload-label i {
+            font-size: 3rem;
+            color: var(--accent-light);
         }
         
-        .notification.correct {
-            border-right: 5px solid var(--success);
-        }
-        
-        .notification.incorrect {
-            border-right: 5px solid var(--error);
-        }
-        
-        /* تصميم متجاوب */
-        @media (max-width: 992px) {
-            .tab-btn {
-                min-width: 180px;
-                padding: 18px 12px;
-                font-size: 1rem;
-            }
-            
-            .tab-content {
-                padding: 30px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .header {
-                padding: 15px 20px;
-                height: 70px;
-                flex-direction: column;
-                gap: 10px;
-                height: auto;
-                padding: 15px;
-            }
-            
-            .logo-icon {
-                width: 45px;
-                height: 45px;
-                font-size: 24px;
-            }
-            
-            .logo-text h1 {
-                font-size: 1.3rem;
-            }
-            
-            body {
-                padding-top: 120px;
-            }
-            
-            .tab-btn {
-                min-width: 160px;
-                padding: 15px 10px;
-                font-size: 0.95rem;
-            }
-            
-            .tab-content {
-                padding: 25px 20px;
-            }
-            
-            .score-circle {
-                width: 150px;
-                height: 150px;
-            }
-            
-            .score-value {
-                font-size: 2.8rem;
-            }
-            
-            .btn-wrong-answers {
-                width: 100%;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .container {
-                padding: 20px 15px;
-            }
-            
-            .tab-btn {
-                min-width: 140px;
-                padding: 15px 8px;
-                font-size: 0.9rem;
-                gap: 8px;
-            }
-            
-            .tab-btn i {
-                font-size: 1.1rem;
-            }
-            
-            .btn {
-                padding: 16px 20px;
-                font-size: 1rem;
-            }
-            
-            .form-input, .form-select, .form-textarea {
-                padding: 14px 16px;
-            }
-        }
-        
-        /* الرسوم المتحركة */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-        
-        .pulse {
-            animation: pulse 0.5s ease;
-        }
-        
-        /* حالة التحميل */
-        .loading {
+        .upload-options {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+            flex-wrap: wrap;
             justify-content: center;
-            padding: 60px 20px;
+        }
+        
+        .upload-option-btn {
+            background: rgba(42, 157, 143, 0.2);
+            border: 1px solid rgba(42, 157, 143, 0.4);
+            border-radius: var(--border-radius-sm);
+            padding: 12px 20px;
+            color: var(--accent-light);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        
+        .upload-option-btn:hover {
+            background: rgba(42, 157, 143, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .upload-option-btn.active {
+            background: rgba(42, 157, 143, 0.4);
+            border-color: var(--accent);
+            box-shadow: 0 5px 15px rgba(42, 157, 143, 0.2);
+        }
+        
+        .image-preview {
+            margin-top: 20px;
+            max-width: 100%;
+            border-radius: var(--border-radius-sm);
+            display: none;
+        }
+        
+        .image-preview img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: var(--border-radius-sm);
+            object-fit: contain;
+        }
+        
+        .camera-container {
+            width: 100%;
+            height: 300px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        #camera-feed {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .camera-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+        
+        .camera-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(231, 111, 81, 0.8);
+            border: 3px solid white;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1.5rem;
+        }
+        
+        .camera-btn:hover {
+            background: rgba(231, 111, 81, 1);
+            transform: scale(1.1);
+        }
+        
+        .camera-btn.capture {
+            background: rgba(42, 157, 143, 0.8);
+        }
+        
+        .camera-btn.capture:hover {
+            background: rgba(42, 157, 143, 1);
+        }
+        
+        /* التحميل */
+        .loading {
             text-align: center;
+            padding: 60px;
         }
         
         .spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid rgba(21, 152, 149, 0.2);
+            width: 70px;
+            height: 70px;
+            border: 6px solid rgba(255, 255, 255, 0.1);
+            border-top: 6px solid var(--accent);
             border-radius: 50%;
-            border-top-color: var(--secondary);
             animation: spin 1s linear infinite;
-            margin-bottom: 20px;
+            margin: 0 auto 30px;
+        }
+        
+        .loading-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-light);
+        }
+        
+        /* الرسائل */
+        .message {
+            padding: 30px;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+            border-right: 5px solid;
+            backdrop-filter: blur(10px);
+        }
+        
+        body.english-mode .message {
+            border-right: none;
+            border-left: 5px solid;
+        }
+        
+        .message.success {
+            background: rgba(42, 157, 143, 0.15);
+            color: var(--accent-light);
+            border-right-color: var(--accent);
+        }
+        
+        body.english-mode .message.success {
+            border-left-color: var(--accent);
+        }
+        
+        .message.error {
+            background: rgba(231, 111, 81, 0.15);
+            color: var(--danger-light);
+            border-right-color: var(--danger);
+        }
+        
+        body.english-mode .message.error {
+            border-left-color: var(--danger);
+        }
+        
+        /* الأنيميشن */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         @keyframes spin {
+            0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        
+        /* تحسينات للأجهزة المحمولة */
+        @media (max-width: 768px) {
+            .header {
+                padding: 25px 15px 20px;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .logo-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+            
+            .logo-text {
+                font-size: 2.5rem;
+            }
+            
+            .logo-text::after {
+                font-size: 1.5rem;
+                right: -4px;
+                top: -10px;
+            }
+            
+            body.english-mode .logo-text::after {
+                left: -4px;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .mode-tabs {
+                flex-direction: column;
+            }
+            
+            .mode-tab {
+                min-width: 100%;
+            }
+            
+            .container {
+                padding: 20px 15px 40px;
+            }
+            
+            .control-card {
+                padding: 25px 20px;
+            }
+            
+            .question {
+                padding: 25px 20px;
+            }
+            
+            .question-text {
+                font-size: 1.25rem;
+            }
+            
+            .question-number {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+                margin-left: 15px;
+            }
+            
+            body.english-mode .question-number {
+                margin-left: 0;
+                margin-right: 15px;
+            }
+            
+            .flashcard {
+                padding: 35px 25px;
+                min-height: 350px;
+            }
+            
+            .flashcard-front, .flashcard-back {
+                font-size: 1.7rem;
+            }
+            
+            .flashcard-nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .flashcard-btn {
+                width: 100%;
+            }
+            
+            .summary {
+                padding: 25px;
+            }
+            
+            .summary-title {
+                font-size: 1.7rem;
+            }
+            
+            .summary-point {
+                padding: 18px;
+            }
+            
+            .upload-options {
+                flex-direction: column;
+            }
+            
+            .camera-container {
+                height: 250px;
+            }
+        }
+        
+        /* تحسينات للأجهزة اللوحية */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                max-width: 95%;
+            }
+        }
+        
+        /* إخفاء العناصر */
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 
-<body id="bodyElement">
-    <!-- الهيدر الثابت -->
-    <header class="header">
-        <div class="logo">
-            <div class="logo-icon">
-                <i class="fas fa-brain"></i>
-            </div>
-            <div class="logo-text">
-                <h1 id="appTitle">الاختبارات الذكية</h1>
-                <p id="appSubtitle">منصة الاختبارات والتلخيص</p>
-            </div>
-        </div>
-        <div class="language-switch" onclick="toggleLanguage()">
-            <i class="fas fa-globe"></i>
-            <span id="languageText">English</span>
-        </div>
-        <div class="developer">
-            <p id="developerText">تنفيذ: فهد نغيمش الخالدي</p>
-        </div>
-    </header>
-    
-    <!-- المحتوى الرئيسي -->
-    <main class="container">
-        <div class="dashboard">
-            <!-- التبويبات -->
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="manual">
-                    <i class="fas fa-edit"></i>
-                    <span id="manualTabText">اختبار يدوي</span>
-                </button>
-                <button class="tab-btn" data-tab="file">
-                    <i class="fas fa-file-upload"></i>
-                    <span id="fileTabText">اختبار من ملف</span>
-                </button>
-                <button class="tab-btn" data-tab="summary">
-                    <i class="fas fa-file-contract"></i>
-                    <span id="summaryTabText">تلخيص ملف</span>
-                </button>
-            </div>
-            
-            <!-- محتوى التبويبات -->
-            <div class="tab-content active" id="manual-tab">
-                <h2 style="margin-bottom: 25px; color: var(--primary);" id="manualTitle">إنشاء اختبار يدوي</h2>
-                <div class="form-group">
-                    <label class="form-label" for="topic" id="topicLabel">موضوع الاختبار</label>
-                    <textarea class="form-textarea" id="topic" placeholder="اكتب موضوع الاختبار هنا... (مثال: مبادئ الفيزياء الأساسية، تاريخ الدولة العباسية، قواعد اللغة العربية)"></textarea>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="lang" id="langLabel">لغة الاختبار</label>
-                    <select class="form-select" id="lang">
-                        <option value="ar">العربية</option>
-                        <option value="en">English</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="qCount" id="qCountLabel">عدد الأسئلة</label>
-                    <select class="form-select" id="qCount">
-                        <option value="5">5 أسئلة</option>
-                        <option value="10" selected>10 أسئلة</option>
-                        <option value="20">20 سؤال</option>
-                        <option value="30">30 سؤال</option>
-                        <option value="40">40 سؤال</option>
-                        <option value="50">50 سؤال</option>
-                        <option value="60">60 سؤال</option>
-                    </select>
-                </div>
-                
-                <button class="btn btn-primary btn-lg" onclick="manualQuiz()">
-                    <i class="fas fa-magic"></i>
-                    <span id="createTestBtn">إنشاء الاختبار</span>
-                </button>
-            </div>
-            
-            <div class="tab-content" id="file-tab">
-                <h2 style="margin-bottom: 25px; color: var(--primary);" id="fileTitle">إنشاء اختبار من ملف</h2>
-                
-                <div class="form-group">
-                    <label class="form-label" id="uploadFileLabel">رفع الملف</label>
-                    <div style="border: 2px dashed #cbd5e1; border-radius: 12px; padding: 40px 20px; text-align: center; background: #f8fafc; cursor: pointer;" onclick="document.getElementById('fileInput').click()">
-                        <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--secondary); margin-bottom: 15px;"></i>
-                        <p style="font-size: 1.1rem; color: var(--primary); margin-bottom: 10px;" id="clickToUpload">انقر لرفع ملف</p>
-                        <p style="color: #64748b; font-size: 0.9rem;" id="fileSupport">يدعم: PDF, PNG, JPG (الحد الأقصى: 10MB)</p>
-                        <input type="file" id="fileInput" accept=".pdf,.png,.jpg,.jpeg" style="display: none;" onchange="updateFileName()">
-                    </div>
-                    <p id="fileName" style="margin-top: 10px; color: var(--primary); font-weight: 500;"></p>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="fileLang" id="fileLangLabel">لغة الاختبار</label>
-                    <select class="form-select" id="fileLang">
-                        <option value="ar">العربية</option>
-                        <option value="en">English</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="fileQCount" id="fileQCountLabel">عدد الأسئلة</label>
-                    <select class="form-select" id="fileQCount">
-                        <option value="5">5 أسئلة</option>
-                        <option value="10" selected>10 أسئلة</option>
-                        <option value="20">20 سؤال</option>
-                        <option value="30">30 سؤال</option>
-                        <option value="40">40 سؤال</option>
-                        <option value="50">50 سؤال</option>
-                        <option value="60">60 سؤال</option>
-                    </select>
-                </div>
-                
-                <button class="btn btn-primary btn-lg" onclick="fileQuiz()">
-                    <i class="fas fa-file-alt"></i>
-                    <span id="createQuestionsBtn">إنشاء الأسئلة من الملف</span>
-                </button>
-            </div>
-            
-            <div class="tab-content" id="summary-tab">
-                <h2 style="margin-bottom: 25px; color: var(--primary);" id="summaryTitle">تلخيص ملف</h2>
-                
-                <div class="form-group">
-                    <label class="form-label" id="uploadSummaryLabel">رفع الملف للتلخيص</label>
-                    <div style="border: 2px dashed #cbd5e1; border-radius: 12px; padding: 40px 20px; text-align: center; background: #f8fafc; cursor: pointer;" onclick="document.getElementById('sumFile').click()">
-                        <i class="fas fa-file-contract" style="font-size: 3rem; color: var(--secondary); margin-bottom: 15px;"></i>
-                        <p style="font-size: 1.1rem; color: var(--primary); margin-bottom: 10px;" id="clickToUploadSummary">انقر لرفع ملف</p>
-                        <p style="color: #64748b; font-size: 0.9rem;" id="summarySupport">يدعم: PDF, PNG, JPG (الحد الأقصى: 10MB)</p>
-                        <input type="file" id="sumFile" accept=".pdf,.png,.jpg,.jpeg" style="display: none;" onchange="updateSumFileName()">
-                    </div>
-                    <p id="sumFileName" style="margin-top: 10px; color: var(--primary); font-weight: 500;"></p>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="sumLang" id="sumLangLabel">لغة الملخص</label>
-                    <select class="form-select" id="sumLang">
-                        <option value="ar">العربية</option>
-                        <option value="en">English</option>
-                    </select>
-                </div>
-                
-                <button class="btn btn-primary btn-lg" onclick="summarize()">
-                    <i class="fas fa-compress-alt"></i>
-                    <span id="summarizeBtn">تلخيص الملف</span>
-                </button>
-            </div>
-        </div>
-        
-        <!-- منطقة النتائج -->
-        <div id="result"></div>
-        
-        <!-- زر التالي (يظهر أثناء الاختبار) -->
-        <div id="nextBtnContainer" style="display: none; margin-top: 30px;">
-            <button class="btn btn-primary btn-lg" id="nextBtn" onclick="nextQuestion()">
-                <i class="fas fa-arrow-left" id="nextIcon"></i>
-                <span id="nextBtnText">التالي</span>
-            </button>
-        </div>
-    </main>
-    
-    <!-- التذييل -->
-    <footer class="footer">
-        <p id="footerText">© 2023 المنصة الذكية للاختبارات والتلخيص | تنفيذ: فهد نغيمش الخالدي</p>
-        <p id="rightsText">جميع الحقوق محفوظة</p>
-    </footer>
-    
-    <!-- إشعارات -->
-    <div id="notification" class="notification">
-        <i class="fas" id="notificationIcon"></i>
-        <span id="notificationText"></span>
+<body>
+    <!-- البار العلوي -->
+    <div class="top-bar">
+        <i class="fas fa-code"></i> تطوير: فهد الخالدي | نُبـل - أداة التعلم الذكية
     </div>
     
-    <!-- عناصر صوتية -->
-    <audio id="correctSound" preload="auto">
+    <!-- الهيدر -->
+    <div class="header">
+        <div class="logo-container">
+            <div class="logo-icon">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <h1 class="logo-text">نُبـل</h1>
+        </div>
+        <p>تعلمٌ أذكى… تحصيلٌ أرقى</p>
+    </div>
+    
+    <!-- الحاوية الرئيسية -->
+    <div class="container">
+        <!-- بطاقة التحكم -->
+        <div class="control-card">
+            <!-- أزرار التبويب -->
+            <div class="mode-tabs">
+                <div class="mode-tab active" data-mode="manual">
+                    <i class="fas fa-edit"></i>
+                    <span>اختبار يدوي</span>
+                </div>
+                <div class="mode-tab" data-mode="file">
+                    <i class="fas fa-file-alt"></i>
+                    <span>اختبار من ملف</span>
+                </div>
+                <div class="mode-tab" data-mode="flashcards">
+                    <i class="fas fa-layer-group"></i>
+                    <span>فلاش كاردز</span>
+                </div>
+                <div class="mode-tab" data-mode="summary">
+                    <i class="fas fa-scroll"></i>
+                    <span>تلخيص</span>
+                </div>
+            </div>
+            
+            <!-- إعدادات التحكم -->
+            <div class="control-group">
+                <label for="language"><i class="fas fa-language"></i> لغة المحتوى</label>
+                <select id="language">
+                    <option value="ar">عربي</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="num"><i class="fas fa-list-ol"></i> عدد الأسئلة/البطاقات</label>
+                <select id="num">
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                    <option value="60">60</option>
+                </select>
+            </div>
+            
+            <!-- منطقة الإدخال اليدوي -->
+            <div class="control-group" id="topic-group">
+                <label for="topic"><i class="fas fa-book-open"></i> اكتب الموضوع هنا</label>
+                <textarea id="topic" rows="4" placeholder="اكتب الموضوع أو النص الذي تريد إنشاء أسئلة أو تلخيص منه..."></textarea>
+            </div>
+            
+            <!-- منطقة تحميل الملف -->
+            <div class="control-group hidden" id="file-group">
+                <label for="file"><i class="fas fa-upload"></i> اختر مصدر المحتوى</label>
+                
+                <!-- خيارات تحميل الملف -->
+                <div class="file-upload-area">
+                    <label class="file-upload-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span id="upload-instruction">انقر لاختيار ملف أو استخدم الخيارات أدناه</span>
+                        
+                        <div class="upload-options">
+                            <div class="upload-option-btn active" data-upload-type="file">
+                                <i class="fas fa-file"></i> ملف نصي
+                            </div>
+                            <div class="upload-option-btn" data-upload-type="image">
+                                <i class="fas fa-image"></i> صورة
+                            </div>
+                            <div class="upload-option-btn" data-upload-type="camera">
+                                <i class="fas fa-camera"></i> الكاميرا
+                            </div>
+                        </div>
+                        
+                        <!-- حقل اختيار الملف المخفي -->
+                        <input type="file" id="file-input" accept=".txt,.pdf,.doc,.docx,.jpg,.jpeg,.png,.gif">
+                        
+                        <!-- حقل اختيار الصورة -->
+                        <input type="file" id="image-input" accept="image/*" class="hidden">
+                        
+                        <!-- معاينة الصورة -->
+                        <div class="image-preview" id="image-preview">
+                            <img id="preview-image" src="" alt="معاينة الصورة">
+                        </div>
+                        
+                        <!-- حاوية الكاميرا -->
+                        <div class="camera-container" id="camera-container">
+                            <video id="camera-feed" autoplay playsinline></video>
+                            <div class="camera-controls">
+                                <div class="camera-btn capture" id="capture-btn">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                                <div class="camera-btn" id="cancel-camera-btn">
+                                    <i class="fas fa-times"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                
+                <div class="message" id="file-message" style="display: none;">
+                    <i class="fas fa-file"></i> يمكنك رفع ملفات نصية أو PDF أو Word أو صور
+                </div>
+            </div>
+            
+            <!-- زر التنفيذ -->
+            <button class="execute-btn" onclick="start()">
+                <i class="fas fa-play-circle"></i> بدء التنفيذ
+            </button>
+        </div>
+        
+        <!-- منطقة الإخراج -->
+        <div id="out"></div>
+    </div>
+    
+    <!-- الأصوات -->
+    <audio id="correct-sound" preload="auto">
         <source src="https://media.vocaroo.com/mp3/19lcrilHKuHR" type="audio/mpeg">
     </audio>
     
-    <audio id="incorrectSound" preload="auto">
+    <audio id="wrong-sound" preload="auto">
         <source src="https://media.vocaroo.com/mp3/1ooZTr9sHVXS" type="audio/mpeg">
     </audio>
-    
-    <audio id="nextSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg">
-    </audio>
-    
-    <audio id="completeSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" type="audio/mpeg">
-    </audio>
-    
+
     <script>
-        const BACKEND = "https://smarttest-0ycc.onrender.com";
+        const API = "https://smarttest-0ycc.onrender.com";
         
-        let questions = [];
-        let answers = [];
-        let index = 0;
-        let totalQuestions = 0;
-        let currentLanguage = 'ar'; // اللغة الافتراضية
-        let currentQuestionWrongFeedbacks = []; // تخزين تغذية راجعة للخيارات الخاطئة للسؤال الحالي
+        // العناصر الأساسية
+        const modeTabs = document.querySelectorAll('.mode-tab');
+        const topicGroup = document.getElementById('topic-group');
+        const fileGroup = document.getElementById('file-group');
+        const topic = document.getElementById('topic');
+        const out = document.getElementById('out');
+        const language = document.getElementById('language');
+        const num = document.getElementById('num');
+        const correctSound = document.getElementById('correct-sound');
+        const wrongSound = document.getElementById('wrong-sound');
         
-        // عناصر الصوت
-        const correctSound = document.getElementById('correctSound');
-        const incorrectSound = document.getElementById('incorrectSound');
-        const nextSound = document.getElementById('nextSound');
-        const completeSound = document.getElementById('completeSound');
+        // عناصر تحميل الملفات الجديدة
+        const fileInput = document.getElementById('file-input');
+        const imageInput = document.getElementById('image-input');
+        const uploadOptions = document.querySelectorAll('.upload-option-btn');
+        const uploadInstruction = document.getElementById('upload-instruction');
+        const imagePreview = document.getElementById('image-preview');
+        const previewImage = document.getElementById('preview-image');
+        const cameraContainer = document.getElementById('camera-container');
+        const cameraFeed = document.getElementById('camera-feed');
+        const captureBtn = document.getElementById('capture-btn');
+        const cancelCameraBtn = document.getElementById('cancel-camera-btn');
         
-        // نصوص متعددة اللغات
-        const translations = {
-            ar: {
-                appTitle: "الاختبارات الذكية",
-                appSubtitle: "منصة الاختبارات والتلخيص",
-                developerText: "تنفيذ: فهد نغيمش الخالدي",
-                languageText: "English",
-                manualTabText: "اختبار يدوي",
-                fileTabText: "اختبار من ملف",
-                summaryTabText: "تلخيص ملف",
-                manualTitle: "إنشاء اختبار يدوي",
-                topicLabel: "موضوع الاختبار",
-                topicPlaceholder: "اكتب موضوع الاختبار هنا... (مثال: مبادئ الفيزياء الأساسية، تاريخ الدولة العباسية، قواعد اللغة العربية)",
-                langLabel: "لغة الاختبار",
-                qCountLabel: "عدد الأسئلة",
-                createTestBtn: "إنشاء الاختبار",
-                fileTitle: "إنشاء اختبار من ملف",
-                uploadFileLabel: "رفع الملف",
-                clickToUpload: "انقر لرفع ملف",
-                fileSupport: "يدعم: PDF, PNG, JPG (الحد الأقصى: 10MB)",
-                fileLangLabel: "لغة الاختبار",
-                fileQCountLabel: "عدد الأسئلة",
-                createQuestionsBtn: "إنشاء الأسئلة من الملف",
-                summaryTitle: "تلخيص ملف",
-                uploadSummaryLabel: "رفع الملف للتلخيص",
-                clickToUploadSummary: "انقر لرفع ملف",
-                summarySupport: "يدعم: PDF, PNG, JPG (الحد الأقصى: 10MB)",
-                sumLangLabel: "لغة الملخص",
-                summarizeBtn: "تلخيص الملف",
-                nextBtnText: "التالي",
-                finishBtnText: "عرض النتيجة",
-                footerText: "© 2023 المنصة الذكية للاختبارات والتلخيص | تنفيذ: فهد نغيمش الخالدي",
-                rightsText: "جميع الحقوق محفوظة",
-                loadingTest: "جارٍ إنشاء الاختبار...",
-                loadingQuestions: "جارٍ تحليل الملف وإنشاء الأسئلة...",
-                loadingSummary: "جارٍ تلخيص الملف...",
-                pleaseWait: "يرجى الانتظار، هذه العملية قد تستغرق دقيقة",
-                correctNotification: "إجابة صحيحة! أحسنت!",
-                incorrectNotification: "إجابة خاطئة! حاول مرة أخرى.",
-                resultTitle: "نتيجة الاختبار",
-                excellent: "ممتاز! نتيجة رائعة",
-                veryGood: "جيد جداً! أحسنت",
-                good: "مقبول، يمكنك التحسين",
-                needsImprovement: "تحتاج إلى مراجعة المادة",
-                successRate: "نسبة النجاح:",
-                retryTest: "إعادة الاختبار",
-                newTest: "اختبار جديد",
-                noFileSelected: "الرجاء اختيار ملف أولاً",
-                noTopic: "الرجاء إدخال موضوع للاختبار",
-                chooseAnswer: "الرجاء اختيار إجابة قبل الانتقال للسؤال التالي",
-                errorCreatingTest: "حدث خطأ أثناء إنشاء الاختبار",
-                errorProcessingFile: "حدث خطأ أثناء معالجة الملف",
-                errorSummarizing: "حدث خطأ أثناء تلخيص الملف",
-                tryAgain: "إعادة المحاولة",
-                checkConnection: "الرجاء المحاولة مرة أخرى أو التحقق من اتصال الإنترنت",
-                checkFileFormat: "الرجاء التأكد من صيغة الملف والمحاولة مرة أخرى",
-                questionOf: "سؤال",
-                of: "من",
-                summaryTitleResult: "ملخص الملف",
-                printSummary: "طباعة الملخص",
-                showWrongAnswers: "عرض شرح الإجابات الخاطئة",
-                hideWrongAnswers: "إخفاء شرح الإجابات الخاطئة",
-                wrongAnswersTitle: "شرح الإجابات الخاطئة:"
-            },
-            en: {
-                appTitle: "Smart Tests Platform",
-                appSubtitle: "Testing and Summarization Platform",
-                developerText: "Developed by: Fahad Nghaimesh Al-Khalidi",
-                languageText: "العربية",
-                manualTabText: "Manual Test",
-                fileTabText: "Test from File",
-                summaryTabText: "File Summary",
-                manualTitle: "Create Manual Test",
-                topicLabel: "Test Topic",
-                topicPlaceholder: "Enter test topic here... (e.g., Basic Physics Principles, History of the Abbasid State, Arabic Grammar Rules)",
-                langLabel: "Test Language",
-                qCountLabel: "Number of Questions",
-                createTestBtn: "Create Test",
-                fileTitle: "Create Test from File",
-                uploadFileLabel: "Upload File",
-                clickToUpload: "Click to upload file",
-                fileSupport: "Supports: PDF, PNG, JPG (Max: 10MB)",
-                fileLangLabel: "Test Language",
-                fileQCountLabel: "Number of Questions",
-                createQuestionsBtn: "Generate Questions from File",
-                summaryTitle: "File Summarization",
-                uploadSummaryLabel: "Upload File for Summary",
-                clickToUploadSummary: "Click to upload file",
-                summarySupport: "Supports: PDF, PNG, JPG (Max: 10MB)",
-                sumLangLabel: "Summary Language",
-                summarizeBtn: "Summarize File",
-                nextBtnText: "Next",
-                finishBtnText: "Show Results",
-                footerText: "© 2023 Smart Tests Platform | Developed by: Fahd Nghaimesh Al-Khalidi",
-                rightsText: "All rights reserved",
-                loadingTest: "Creating test...",
-                loadingQuestions: "Analyzing file and generating questions...",
-                loadingSummary: "Summarizing file...",
-                pleaseWait: "Please wait, this process may take a minute",
-                correctNotification: "Correct answer! Well done!",
-                incorrectNotification: "Incorrect answer! Try again.",
-                resultTitle: "Test Results",
-                excellent: "Excellent! Great result",
-                veryGood: "Very good! Well done",
-                good: "Acceptable, you can improve",
-                needsImprovement: "Needs to review the material",
-                successRate: "Success rate:",
-                retryTest: "Retry Test",
-                newTest: "New Test",
-                noFileSelected: "Please select a file first",
-                noTopic: "Please enter a test topic",
-                chooseAnswer: "Please select an answer before moving to the next question",
-                errorCreatingTest: "Error creating test",
-                errorProcessingFile: "Error processing file",
-                errorSummarizing: "Error summarizing file",
-                tryAgain: "Try Again",
-                checkConnection: "Please try again or check your internet connection",
-                checkFileFormat: "Please check the file format and try again",
-                questionOf: "Question",
-                of: "of",
-                summaryTitleResult: "File Summary",
-                printSummary: "Print Summary",
-                showWrongAnswers: "Show Wrong Answers Explanation",
-                hideWrongAnswers: "Hide Wrong Answers Explanation",
-                wrongAnswersTitle: "Wrong Answers Explanation:"
-            }
-        };
+        // متغيرات التحكم
+        let currentUploadType = 'file';
+        let currentFile = null;
+        let stream = null;
         
-        // تبديل اللغة
-        function toggleLanguage() {
-            currentLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
-            updateLanguage();
-        }
-        
-        // تحديث واجهة اللغة
-        function updateLanguage() {
-            const texts = translations[currentLanguage];
-            
-            // تحديث اتجاه الصفحة
-            document.body.id = currentLanguage === 'ar' ? 'bodyElement' : 'bodyElement english-mode';
-            
-            // تحديث النصوص
-            document.getElementById('appTitle').textContent = texts.appTitle;
-            document.getElementById('appSubtitle').textContent = texts.appSubtitle;
-            document.getElementById('developerText').textContent = texts.developerText;
-            document.getElementById('languageText').textContent = texts.languageText;
-            document.getElementById('manualTabText').textContent = texts.manualTabText;
-            document.getElementById('fileTabText').textContent = texts.fileTabText;
-            document.getElementById('summaryTabText').textContent = texts.summaryTabText;
-            document.getElementById('manualTitle').textContent = texts.manualTitle;
-            document.getElementById('topicLabel').textContent = texts.topicLabel;
-            document.getElementById('topic').placeholder = texts.topicPlaceholder;
-            document.getElementById('langLabel').textContent = texts.langLabel;
-            document.getElementById('qCountLabel').textContent = texts.qCountLabel;
-            document.getElementById('createTestBtn').textContent = texts.createTestBtn;
-            document.getElementById('fileTitle').textContent = texts.fileTitle;
-            document.getElementById('uploadFileLabel').textContent = texts.uploadFileLabel;
-            document.getElementById('clickToUpload').textContent = texts.clickToUpload;
-            document.getElementById('fileSupport').textContent = texts.fileSupport;
-            document.getElementById('fileLangLabel').textContent = texts.fileLangLabel;
-            document.getElementById('fileQCountLabel').textContent = texts.fileQCountLabel;
-            document.getElementById('createQuestionsBtn').textContent = texts.createQuestionsBtn;
-            document.getElementById('summaryTitle').textContent = texts.summaryTitle;
-            document.getElementById('uploadSummaryLabel').textContent = texts.uploadSummaryLabel;
-            document.getElementById('clickToUploadSummary').textContent = texts.clickToUploadSummary;
-            document.getElementById('summarySupport').textContent = texts.summarySupport;
-            document.getElementById('sumLangLabel').textContent = texts.sumLangLabel;
-            document.getElementById('summarizeBtn').textContent = texts.summarizeBtn;
-            document.getElementById('footerText').textContent = texts.footerText;
-            document.getElementById('rightsText').textContent = texts.rightsText;
-            
-            // تحديث اتجاه الأيقونة في زر التالي
-            const nextIcon = document.getElementById('nextIcon');
-            nextIcon.className = currentLanguage === 'ar' ? 'fas fa-arrow-left' : 'fas fa-arrow-right';
-        }
-        
-        // إدارة التبويبات
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                // إزالة النشاط من جميع الأزرار
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                // إخفاء جميع المحتويات
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        // تهيئة وضع التبويب
+        modeTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // إزالة النشط من جميع الألسنة
+                modeTabs.forEach(t => t.classList.remove('active'));
+                // إضافة النشط للسان المحدد
+                tab.classList.add('active');
                 
-                // تفعيل الزر المحدد
-                btn.classList.add('active');
-                // إظهار المحتوى المقابل
-                const tabId = btn.getAttribute('data-tab');
-                document.getElementById(`${tabId}-tab`).classList.add('active');
+                // تحديث الواجهة بناءً على الوضع المحدد
+                const mode = tab.dataset.mode;
                 
-                // مسح النتائج
-                document.getElementById('result').innerHTML = '';
-                document.getElementById('nextBtnContainer').style.display = 'none';
+                if (mode === 'manual') {
+                    topicGroup.classList.remove('hidden');
+                    fileGroup.classList.add('hidden');
+                } else {
+                    topicGroup.classList.add('hidden');
+                    fileGroup.classList.remove('hidden');
+                    
+                    // عرض رسالة إرشادية للملف
+                    const fileMessage = document.getElementById('file-message');
+                    if (fileMessage) {
+                        fileMessage.style.display = 'block';
+                        fileMessage.classList.remove('success', 'error');
+                        fileMessage.classList.add('success');
+                        fileMessage.innerHTML = '<i class="fas fa-file"></i> يمكنك رفع ملفات نصية أو PDF أو Word أو صور';
+                    }
+                }
             });
         });
         
-        // تحديث اسم الملف المرفوع
-        function updateFileName() {
-            const fileInput = document.getElementById('fileInput');
-            const fileName = document.getElementById('fileName');
-            if (fileInput.files.length > 0) {
-                const icon = currentLanguage === 'ar' ? 
-                    `<i class="fas fa-check-circle" style="color: var(--success);"></i> تم رفع الملف: ${fileInput.files[0].name}` :
-                    `<i class="fas fa-check-circle" style="color: var(--success);"></i> File uploaded: ${fileInput.files[0].name}`;
-                fileName.innerHTML = icon;
-            } else {
-                fileName.innerHTML = '';
-            }
-        }
-        
-        function updateSumFileName() {
-            const sumFile = document.getElementById('sumFile');
-            const sumFileName = document.getElementById('sumFileName');
-            if (sumFile.files.length > 0) {
-                const icon = currentLanguage === 'ar' ?
-                    `<i class="fas fa-check-circle" style="color: var(--success);"></i> تم رفع الملف: ${sumFile.files[0].name}` :
-                    `<i class="fas fa-check-circle" style="color: var(--success);"></i> File uploaded: ${sumFile.files[0].name}`;
-                sumFileName.innerHTML = icon;
-            } else {
-                sumFileName.innerHTML = '';
-            }
-        }
-        
-        // عرض إشعار
-        function showNotification(message, type) {
-            const notification = document.getElementById('notification');
-            const icon = document.getElementById('notificationIcon');
-            const text = document.getElementById('notificationText');
+        // تغيير لغة المحتوى
+        language.addEventListener('change', function() {
+            const isEnglish = this.value === 'en';
+            document.body.classList.toggle('english-mode', isEnglish);
             
-            notification.className = `notification ${type}`;
-            icon.className = type === 'correct' ? 'fas fa-check-circle' : 'fas fa-times-circle';
-            text.textContent = message;
-            
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
-        
-        // معالجة JSON الآمنة
-        function safeParse(text) {
-            try {
-                return JSON.parse(text.replace(/```json|```/g, "").trim());
-            } catch (e) {
-                console.error("JSON parsing error:", e);
+            // تحديث النصوص حسب اللغة
+            if (isEnglish) {
+                document.querySelector('.top-bar').innerHTML = '<i class="fas fa-code"></i> Development: Fahad Al-Khalidi | Nubl - Smart Learning Tool';
+                document.querySelector('.header p').textContent = 'Smarter Learning... Better Achievement';
+                document.querySelector('.execute-btn').innerHTML = '<i class="fas fa-play-circle"></i> Start Processing';
+                document.querySelectorAll('.mode-tab span')[0].textContent = 'Manual Test';
+                document.querySelectorAll('.mode-tab span')[1].textContent = 'Test from File';
+                document.querySelectorAll('.mode-tab span')[2].textContent = 'Flash Cards';
+                document.querySelectorAll('.mode-tab span')[3].textContent = 'Summary';
+                document.querySelector('label[for="language"]').innerHTML = '<i class="fas fa-language"></i> Content Language';
+                document.querySelector('label[for="num"]').innerHTML = '<i class="fas fa-list-ol"></i> Number of Questions/Cards';
+                document.querySelector('label[for="topic"]').innerHTML = '<i class="fas fa-book-open"></i> Write the topic here';
+                document.querySelector('#topic').placeholder = 'Write the topic or text you want to create questions or summarize from...';
+                document.querySelector('label[for="file"]').innerHTML = '<i class="fas fa-upload"></i> Choose content source';
+                uploadInstruction.textContent = 'Click to choose a file or use the options below';
+                document.querySelectorAll('.upload-option-btn')[0].innerHTML = '<i class="fas fa-file"></i> Text File';
+                document.querySelectorAll('.upload-option-btn')[1].innerHTML = '<i class="fas fa-image"></i> Image';
+                document.querySelectorAll('.upload-option-btn')[2].innerHTML = '<i class="fas fa-camera"></i> Camera';
                 
-                // إنشاء بيانات اختبار افتراضية
-                if (currentLanguage === 'ar') {
-                    return {
-                        questions: [
-                            {
-                                q: "ما هو العنصر الأكثر وفرة في الكون؟",
-                                options: ["الهيدروجين", "الهيليوم", "الأكسجين", "الكربون"],
-                                answer: 0,
-                                explanations: [
-                                    "الهيدروجين هو العنصر الأكثر وفرة في الكون، حيث يشكل حوالي 75% من الكتلة الباريونية للكون.",
-                                    "الهيليوم هو ثاني أكثر العناصر وفرة في الكون، ولكنه ليس الأكثر وفرة.",
-                                    "الأكسجين هو ثالث أكثر العناصر وفرة في الكون، ولكنه لا يشكل النسبة الأكبر.",
-                                    "الكربون عنصر مهم للحياة ولكنه ليس الأكثر وفرة في الكون."
-                                ]
-                            },
-                            {
-                                q: "أي كوكب هو الأكبر في المجموعة الشمسية؟",
-                                options: ["المشتري", "زحل", "نبتون", "الأرض"],
-                                answer: 0,
-                                explanations: [
-                                    "المشتري هو أكبر كوكب في المجموعة الشمسية، وكتلته أكبر بـ 2.5 مرة من جميع الكواكب الأخرى مجتمعة.",
-                                    "زحل هو ثاني أكبر كوكب في المجموعة الشمسية، ولكنه أصغر من المشتري.",
-                                    "نبتون هو رابع أكبر كوكب في المجموعة الشمسية.",
-                                    "الأرض هي خامس أكبر كوكب في المجموعة الشمسية وأكبر الكواكب الصخرية."
-                                ]
-                            }
-                        ]
-                    };
-                } else {
-                    return {
-                        questions: [
-                            {
-                                q: "What is the most abundant element in the universe?",
-                                options: ["Hydrogen", "Helium", "Oxygen", "Carbon"],
-                                answer: 0,
-                                explanations: [
-                                    "Hydrogen is the most abundant element in the universe, constituting about 75% of the baryonic mass of the universe.",
-                                    "Helium is the second most abundant element in the universe, but not the most abundant.",
-                                    "Oxygen is the third most abundant element in the universe, but it doesn't constitute the largest percentage.",
-                                    "Carbon is an important element for life but not the most abundant in the universe."
-                                ]
-                            },
-                            {
-                                q: "Which planet is the largest in the solar system?",
-                                options: ["Jupiter", "Saturn", "Neptune", "Earth"],
-                                answer: 0,
-                                explanations: [
-                                    "Jupiter is the largest planet in the solar system, with a mass 2.5 times greater than all other planets combined.",
-                                    "Saturn is the second largest planet in the solar system, but smaller than Jupiter.",
-                                    "Neptune is the fourth largest planet in the solar system.",
-                                    "Earth is the fifth largest planet in the solar system and the largest of the terrestrial planets."
-                                ]
-                            }
-                        ]
-                    };
+                // تحديث رسالة الملف
+                const fileMessage = document.getElementById('file-message');
+                if (fileMessage) {
+                    fileMessage.innerHTML = '<i class="fas fa-file"></i> You can upload text files, PDF, Word, or images';
+                }
+            } else {
+                document.querySelector('.top-bar').innerHTML = '<i class="fas fa-code"></i> تطوير: فهد الخالدي | نُبـل - أداة التعلم الذكية';
+                document.querySelector('.header p').textContent = 'تعلمٌ أذكى… تحصيلٌ أرقى';
+                document.querySelector('.execute-btn').innerHTML = '<i class="fas fa-play-circle"></i> بدء التنفيذ';
+                document.querySelectorAll('.mode-tab span')[0].textContent = 'اختبار يدوي';
+                document.querySelectorAll('.mode-tab span')[1].textContent = 'اختبار من ملف';
+                document.querySelectorAll('.mode-tab span')[2].textContent = 'فلاش كاردز';
+                document.querySelectorAll('.mode-tab span')[3].textContent = 'تلخيص';
+                document.querySelector('label[for="language"]').innerHTML = '<i class="fas fa-language"></i> لغة المحتوى';
+                document.querySelector('label[for="num"]').innerHTML = '<i class="fas fa-list-ol"></i> عدد الأسئلة/البطاقات';
+                document.querySelector('label[for="topic"]').innerHTML = '<i class="fas fa-book-open"></i> اكتب الموضوع هنا';
+                document.querySelector('#topic').placeholder = 'اكتب الموضوع أو النص الذي تريد إنشاء أسئلة أو تلخيص منه...';
+                document.querySelector('label[for="file"]').innerHTML = '<i class="fas fa-upload"></i> اختر مصدر المحتوى';
+                uploadInstruction.textContent = 'انقر لاختيار ملف أو استخدم الخيارات أدناه';
+                document.querySelectorAll('.upload-option-btn')[0].innerHTML = '<i class="fas fa-file"></i> ملف نصي';
+                document.querySelectorAll('.upload-option-btn')[1].innerHTML = '<i class="fas fa-image"></i> صورة';
+                document.querySelectorAll('.upload-option-btn')[2].innerHTML = '<i class="fas fa-camera"></i> الكاميرا';
+                
+                // تحديث رسالة الملف
+                const fileMessage = document.getElementById('file-message');
+                if (fileMessage) {
+                    fileMessage.innerHTML = '<i class="fas fa-file"></i> يمكنك رفع ملفات نصية أو PDF أو Word أو صور';
+                }
+            }
+        });
+        
+        // إدارة خيارات التحميل
+        uploadOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // إزالة النشط من جميع الخيارات
+                uploadOptions.forEach(opt => opt.classList.remove('active'));
+                // إضافة النشط للخيار المحدد
+                this.classList.add('active');
+                
+                // تحديث نوع التحميل الحالي
+                currentUploadType = this.dataset.uploadType;
+                
+                // تحديث التعليمات
+                const isEnglish = language.value === 'en';
+                
+                if (currentUploadType === 'file') {
+                    uploadInstruction.textContent = isEnglish ? 
+                        'Click to choose a text file (TXT, PDF, DOC, DOCX)' : 
+                        'انقر لاختيار ملف نصي (TXT, PDF, DOC, DOCX)';
+                    imagePreview.style.display = 'none';
+                    stopCamera();
+                } else if (currentUploadType === 'image') {
+                    uploadInstruction.textContent = isEnglish ? 
+                        'Click to choose an image (JPG, PNG, GIF)' : 
+                        'انقر لاختيار صورة (JPG, PNG, GIF)';
+                    imagePreview.style.display = 'none';
+                    stopCamera();
+                } else if (currentUploadType === 'camera') {
+                    uploadInstruction.textContent = isEnglish ? 
+                        'Click to start the camera' : 
+                        'انقر لبدء الكاميرا';
+                    imagePreview.style.display = 'none';
+                    startCamera();
+                }
+                
+                // إعادة تعيين الملف الحالي
+                currentFile = null;
+            });
+        });
+        
+        // إدارة اختيار الملف
+        fileInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                handleFileSelect(this.files[0]);
+            }
+        });
+        
+        // إدارة اختيار الصورة
+        imageInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                handleFileSelect(this.files[0], true);
+            }
+        });
+        
+        // دالة معالجة اختيار الملف
+        function handleFileSelect(file, isImage = false) {
+            currentFile = file;
+            
+            const isEnglish = language.value === 'en';
+            const fileMessage = document.getElementById('file-message');
+            
+            if (isImage) {
+                // عرض معاينة الصورة
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    
+                    if (fileMessage) {
+                        fileMessage.innerHTML = isEnglish ? 
+                            `<i class="fas fa-image"></i> Selected image: ${file.name}` : 
+                            `<i class="fas fa-image"></i> الصورة المحددة: ${file.name}`;
+                        fileMessage.classList.remove('success', 'error');
+                        fileMessage.classList.add('success');
+                        fileMessage.style.display = 'block';
+                    }
+                };
+                reader.readAsDataURL(file);
+            } else {
+                // ملف نصي
+                if (fileMessage) {
+                    fileMessage.innerHTML = isEnglish ? 
+                        `<i class="fas fa-file"></i> Selected file: ${file.name}` : 
+                        `<i class="fas fa-file"></i> الملف المحدد: ${file.name}`;
+                    fileMessage.classList.remove('success', 'error');
+                    fileMessage.classList.add('success');
+                    fileMessage.style.display = 'block';
                 }
             }
         }
         
-        // إنشاء اختبار يدوي
-        async function manualQuiz() {
-            const topic = document.getElementById('topic').value;
-            const lang = document.getElementById('lang').value;
-            const qCount = document.getElementById('qCount').value;
-            const texts = translations[lang === 'ar' ? 'ar' : 'en'];
+        // بدء تشغيل الكاميرا
+        function startCamera() {
+            cameraContainer.style.display = 'flex';
             
-            if (!topic.trim()) {
-                alert(texts.noTopic);
-                return;
-            }
+            navigator.mediaDevices.getUserMedia({ 
+                video: { facingMode: 'environment' },
+                audio: false 
+            })
+            .then(function(mediaStream) {
+                stream = mediaStream;
+                cameraFeed.srcObject = stream;
+            })
+            .catch(function(err) {
+                console.error("Error accessing camera: ", err);
+                const isEnglish = language.value === 'en';
+                showMessage(isEnglish ? 
+                    "Unable to access camera. Please check permissions." : 
+                    "تعذر الوصول إلى الكاميرا. الرجاء التحقق من الأذونات.", 
+                'error');
+            });
+        }
+        
+        // إيقاف تشغيل الكاميرا
+        function stopCamera() {
+            cameraContainer.style.display = 'none';
             
-            // تحديث اللغة الحالية بناءً على اختيار المستخدم
-            if (lang !== currentLanguage) {
-                currentLanguage = lang === 'ar' ? 'ar' : 'en';
-                updateLanguage();
-            }
-            
-            // عرض حالة التحميل
-            document.getElementById('result').innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <h3 style="color: var(--primary); margin-bottom: 10px;">${texts.loadingTest}</h3>
-                    <p style="color: #64748b;">${texts.pleaseWait}</p>
-                </div>
-            `;
-            
-            const prompt = lang === 'ar' ? `
-أنشئ اختبار اختيار من متعدد حول الموضوع التالي:
-${topic}
-
-قواعد:
-- ${qCount} أسئلة
-- 4 خيارات لكل سؤال
-- شرح موسع لكل خيار (الصحيح والخاطئ)
-- أعد JSON فقط
-
-الصيغة:
-{
- "questions":[
-  {
-   "q":"",
-   "options":["","","",""],
-   "answer":0,
-   "explanations":["شرح الخيار 1","شرح الخيار 2","شرح الخيار 3","شرح الخيار 4"]
-  }
- ]
-}
-` : `
-Create a multiple choice test on the following topic:
-${topic}
-
-Rules:
-- ${qCount} questions
-- 4 options for each question
-- Detailed explanation for each option (both correct and incorrect)
-- Return JSON only
-
-Format:
-{
- "questions":[
-  {
-   "q":"",
-   "options":["","","",""],
-   "answer":0,
-   "explanations":["Explanation for option 1","Explanation for option 2","Explanation for option 3","Explanation for option 4"]
-  }
- ]
-}
-`;
-            
-            try {
-                const response = await fetch(BACKEND + "/ask", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ prompt, language: lang })
+            if (stream) {
+                stream.getTracks().forEach(track => {
+                    track.stop();
                 });
-                
-                const data = await response.json();
-                questions = safeParse(data.result).questions;
-                answers = new Array(questions.length).fill(null);
-                index = 0;
-                totalQuestions = questions.length;
-                
-                // إظهار زر التالي
-                document.getElementById('nextBtnContainer').style.display = 'block';
-                
-                // تحديث نص زر التالي
-                document.getElementById('nextBtnText').textContent = 
-                    index === totalQuestions - 1 ? texts.finishBtnText : texts.nextBtnText;
-                
-                // عرض السؤال الأول
-                renderQuestion();
-                
-            } catch (error) {
-                console.error("Error:", error);
-                document.getElementById('result').innerHTML = `
-                    <div class="result-box">
-                        <h3 style="color: var(--error);">${texts.errorCreatingTest}</h3>
-                        <p>${texts.checkConnection}</p>
-                        <button class="btn btn-secondary" style="margin-top: 20px;" onclick="manualQuiz()">
-                            <i class="fas fa-redo"></i>
-                            ${texts.tryAgain}
-                        </button>
-                    </div>
-                `;
+                stream = null;
             }
         }
         
-        // إنشاء اختبار من ملف
-        async function fileQuiz() {
-            const fileInput = document.getElementById('fileInput');
-            const fileLang = document.getElementById('fileLang').value;
-            const fileQCount = document.getElementById('fileQCount').value;
-            const texts = translations[fileLang === 'ar' ? 'ar' : 'en'];
+        // التقاط صورة من الكاميرا
+        captureBtn.addEventListener('click', function() {
+            if (!stream) return;
             
-            if (!fileInput.files.length) {
-                alert(texts.noFileSelected);
+            const canvas = document.createElement('canvas');
+            canvas.width = cameraFeed.videoWidth;
+            canvas.height = cameraFeed.videoHeight;
+            canvas.getContext('2d').drawImage(cameraFeed, 0, 0, canvas.width, canvas.height);
+            
+            canvas.toBlob(function(blob) {
+                const file = new File([blob], 'camera-capture.jpg', { type: 'image/jpeg' });
+                handleFileSelect(file, true);
+                stopCamera();
+                
+                // العودة إلى خيار الصورة
+                uploadOptions.forEach(opt => {
+                    if (opt.dataset.uploadType === 'image') {
+                        opt.click();
+                    }
+                });
+            }, 'image/jpeg', 0.95);
+        });
+        
+        // إلغاء الكاميرا
+        cancelCameraBtn.addEventListener('click', function() {
+            stopCamera();
+            
+            // العودة إلى خيار الملف
+            uploadOptions.forEach(opt => {
+                if (opt.dataset.uploadType === 'file') {
+                    opt.click();
+                }
+            });
+        });
+        
+        // دالة البدء
+        async function start() {
+            const activeTab = document.querySelector('.mode-tab.active');
+            const mode = activeTab.dataset.mode;
+            
+            // التحقق من صحة الإدخال
+            if (mode === 'manual' && !topic.value.trim()) {
+                const isEnglish = language.value === 'en';
+                showMessage(isEnglish ? 
+                    "Please enter a topic to create questions" : 
+                    "الرجاء إدخال موضوع لإنشاء الأسئلة", 
+                'error');
                 return;
             }
             
-            // تحديث اللغة الحالية بناءً على اختيار المستخدم
-            if (fileLang !== currentLanguage) {
-                currentLanguage = fileLang === 'ar' ? 'ar' : 'en';
-                updateLanguage();
+            if (mode !== 'manual') {
+                if (!currentFile && currentUploadType !== 'camera') {
+                    const isEnglish = language.value === 'en';
+                    showMessage(isEnglish ? 
+                        "Please choose a file or take a picture" : 
+                        "الرجاء اختيار ملف أو التقاط صورة", 
+                    'error');
+                    return;
+                }
+                
+                if (currentUploadType === 'camera' && !previewImage.src) {
+                    const isEnglish = language.value === 'en';
+                    showMessage(isEnglish ? 
+                        "Please take a picture first" : 
+                        "الرجاء التقاط صورة أولاً", 
+                    'error');
+                    return;
+                }
             }
             
-            // عرض حالة التحميل
-            document.getElementById('result').innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <h3 style="color: var(--primary); margin-bottom: 10px;">${texts.loadingQuestions}</h3>
-                    <p style="color: #64748b;">${texts.pleaseWait}</p>
-                </div>
-            `;
-            
-            const formData = new FormData();
-            formData.append("file", fileInput.files[0]);
-            formData.append("mode", "questions");
-            formData.append("language", fileLang);
-            // إضافة عدد الأسئلة المطلوبة
-            formData.append("question_count", fileQCount);
+            // عرض مؤشر التحميل
+            showLoading();
             
             try {
-                const response = await fetch(BACKEND + "/ask-file", {
-                    method: "POST",
-                    body: formData
-                });
-                
-                const data = await response.json();
-                questions = safeParse(data.result).questions;
-                answers = new Array(questions.length).fill(null);
-                index = 0;
-                totalQuestions = questions.length;
-                
-                // إظهار زر التالي
-                document.getElementById('nextBtnContainer').style.display = 'block';
-                
-                // تحديث نص زر التالي
-                document.getElementById('nextBtnText').textContent = 
-                    index === totalQuestions - 1 ? texts.finishBtnText : texts.nextBtnText;
-                
-                // عرض السؤال الأول
-                renderQuestion();
-                
+                if (mode === 'manual') {
+                    await runManual();
+                } else {
+                    await runFile(mode);
+                }
             } catch (error) {
-                console.error("Error:", error);
-                document.getElementById('result').innerHTML = `
-                    <div class="result-box">
-                        <h3 style="color: var(--error);">${texts.errorProcessingFile}</h3>
-                        <p>${texts.checkFileFormat}</p>
-                        <button class="btn btn-secondary" style="margin-top: 20px;" onclick="fileQuiz()">
-                            <i class="fas fa-redo"></i>
-                            ${texts.tryAgain}
-                        </button>
-                    </div>
-                `;
+                console.error('Error:', error);
+                const isEnglish = language.value === 'en';
+                showMessage(isEnglish ? 
+                    "An error occurred during processing. Please try again." : 
+                    "حدث خطأ أثناء المعالجة. الرجاء المحاولة مرة أخرى.", 
+                'error');
             }
         }
         
-        // تلخيص ملف
-        async function summarize() {
-            const sumFile = document.getElementById('sumFile');
-            const sumLang = document.getElementById('sumLang').value;
-            const texts = translations[sumLang === 'ar' ? 'ar' : 'en'];
+        // دالة الاختبار اليدوي
+        async function runManual() {
+            const response = await fetch(API + "/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    prompt: topic.value,
+                    language: language.value,
+                    total_questions: +num.value
+                })
+            });
             
-            if (!sumFile.files.length) {
-                alert(texts.noFileSelected);
+            const data = await response.json();
+            renderQuiz(JSON.parse(extractJSON(data.result)));
+        }
+        
+        // دالة معالجة الملف
+        async function runFile(mode) {
+            const formData = new FormData();
+            
+            // إضافة الملف المناسب
+            if (currentUploadType === 'image' && currentFile) {
+                formData.append("file", currentFile, "image.jpg");
+            } else if (currentFile) {
+                formData.append("file", currentFile);
+            } else if (previewImage.src) {
+                // تحويل base64 إلى blob
+                const base64Response = await fetch(previewImage.src);
+                const blob = await base64Response.blob();
+                formData.append("file", blob, "image.jpg");
+            }
+            
+            formData.append("language", language.value);
+            formData.append("num_questions", num.value);
+            formData.append("mode", mode === 'file' ? "questions" : mode);
+            
+            const response = await fetch(API + "/ask-file", {
+                method: "POST",
+                body: formData
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (mode === 'summary') {
+                renderSummary(data.result);
+            } else if (mode === 'flashcards') {
+                renderCards(JSON.parse(extractJSON(data.result)));
+            } else {
+                renderQuiz(JSON.parse(extractJSON(data.result)));
+            }
+        }
+        
+        // دالة عرض الأسئلة
+        function renderQuiz(data) {
+            if (!data || !data.questions || !Array.isArray(data.questions)) {
+                const isEnglish = language.value === 'en';
+                showMessage(isEnglish ? 
+                    "No questions found in received data" : 
+                    "لم يتم العثور على أسئلة في البيانات المستلمة", 
+                'error');
                 return;
             }
             
-            // تحديث اللغة الحالية بناءً على اختيار المستخدم
-            if (sumLang !== currentLanguage) {
-                currentLanguage = sumLang === 'ar' ? 'ar' : 'en';
-                updateLanguage();
-            }
+            const isEnglish = language.value === 'en';
+            const letters = isEnglish ? ['A', 'B', 'C', 'D', 'E', 'F'] : ['أ', 'ب', 'ج', 'د', 'هـ', 'و'];
             
-            // عرض حالة التحميل
-            document.getElementById('result').innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <h3 style="color: var(--primary); margin-bottom: 10px;">${texts.loadingSummary}</h3>
-                    <p style="color: #64748b;">${texts.pleaseWait}</p>
-                </div>
-            `;
-            
-            const formData = new FormData();
-            formData.append("file", sumFile.files[0]);
-            formData.append("mode", "summary");
-            formData.append("language", sumLang);
-            
-            try {
-                const response = await fetch(BACKEND + "/ask-file", {
-                    method: "POST",
-                    body: formData
-                });
+            const questionsHTML = data.questions.map((q, qi) => {
+                // التحقق من وجود explanations
+                const hasExplanations = q.explanations && Array.isArray(q.explanations) && q.explanations.length > 0;
+                const correctExplanation = hasExplanations && q.answer !== undefined ? q.explanations[q.answer] : 
+                    (isEnglish ? 'No explanation available for the correct answer' : 'لا يوجد شرح متاح للإجابة الصحيحة');
                 
-                const data = await response.json();
-                
-                document.getElementById('result').innerHTML = `
-                    <div class="result-box">
-                        <h2 style="color: var(--primary); margin-bottom: 25px;">
-                            <i class="fas fa-file-contract" style="color: var(--secondary);"></i>
-                            ${texts.summaryTitleResult}
-                        </h2>
-                        <div class="summary-box">
-                            ${data.result}
+                return `
+                    <div class="question" data-q="${qi}">
+                        <div class="question-header">
+                            <div class="question-number">${qi + 1}</div>
+                            <div class="question-text">${q.q}</div>
                         </div>
-                        <button class="btn btn-secondary" style="margin-top: 25px;" onclick="window.print()">
-                            <i class="fas fa-print"></i>
-                            ${texts.printSummary}
+                        
+                        <div class="options">
+                            ${q.options.map((o, oi) => `
+                                <div class="option" data-o="${oi}" data-q="${qi}">
+                                    <div class="option-letter">${letters[oi]}</div>
+                                    <div class="option-text">${o}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <!-- التغذية الراجعة الفورية للإجابة الصحيحة -->
+                        <div class="instant-feedback" id="instant-feedback-${qi}">
+                            <div class="instant-feedback-header">
+                                <i class="fas fa-check-circle"></i>
+                                <h3>${isEnglish ? 'Correct Answer Explanation' : 'شرح الإجابة الصحيحة'}</h3>
+                            </div>
+                            <div class="instant-feedback-content">${correctExplanation}</div>
+                        </div>
+                        
+                        <!-- زر التغذية الراجعة للخيارات الخاطئة -->
+                        <button class="wrong-feedback-btn" onclick="toggleWrongFeedback(${qi})" id="wrong-feedback-btn-${qi}" style="display: none;">
+                            <i class="fas fa-comment-alt"></i> ${isEnglish ? 'Show Wrong Answers Explanation' : 'عرض تفسير الإجابات الخاطئة'}
                         </button>
+                        
+                        <!-- منطقة التغذية الراجعة للخيارات الخاطئة -->
+                        <div class="wrong-feedback-area" id="wrong-feedback-${qi}">
+                            <div class="wrong-feedback-title">
+                                <i class="fas fa-times-circle"></i> ${isEnglish ? 'Wrong Answers Explanation' : 'تفسير الإجابات الخاطئة'}
+                            </div>
+                            ${hasExplanations ? q.explanations.map((exp, expIdx) => {
+                                if (expIdx === q.answer) return ''; // تخطي الإجابة الصحيحة
+                                return `
+                                    <div class="wrong-feedback-item">
+                                        <div class="wrong-feedback-header">
+                                            <i class="fas fa-times-circle"></i>
+                                            ${isEnglish ? 'Wrong option: ' : 'خيار خاطئ: '} ${letters[expIdx]}
+                                        </div>
+                                        <div class="wrong-feedback-content">${exp}</div>
+                                    </div>
+                                `;
+                            }).join('') : `<div class="wrong-feedback-item">${isEnglish ? 'No explanations for wrong options' : 'لا توجد تفسيرات للخيارات الخاطئة'}</div>`}
+                        </div>
                     </div>
                 `;
-                
-            } catch (error) {
-                console.error("Error:", error);
-                document.getElementById('result').innerHTML = `
-                    <div class="result-box">
-                        <h3 style="color: var(--error);">${texts.errorSummarizing}</h3>
-                        <p>${texts.checkFileFormat}</p>
-                        <button class="btn btn-secondary" style="margin-top: 20px;" onclick="summarize()">
-                            <i class="fas fa-redo"></i>
-                            ${texts.tryAgain}
-                        </button>
-                    </div>
-                `;
+            }).join('');
+            
+            out.innerHTML = questionsHTML;
+            bindQuizEvents(data);
+        }
+        
+        // دالة ربط أحداث الأسئلة
+        function bindQuizEvents(data) {
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionIndex = parseInt(this.dataset.q);
+                    const optionIndex = parseInt(this.dataset.o);
+                    const questionData = data.questions[questionIndex];
+                    const correctIndex = questionData.answer;
+                    
+                    // تعطيل جميع الخيارات في هذا السؤال
+                    const allOptions = document.querySelectorAll(`.question[data-q="${questionIndex}"] .option`);
+                    allOptions.forEach(opt => opt.classList.add('disabled'));
+                    
+                    // تحديد الخيار الصحيح والخاطئ
+                    allOptions.forEach((opt, idx) => {
+                        if (idx === correctIndex) {
+                            opt.classList.add('correct');
+                            
+                            // تشغيل صوت الإجابة الصحيحة
+                            if (idx === optionIndex) {
+                                playSound('correct');
+                            }
+                        } else if (idx === optionIndex) {
+                            opt.classList.add('wrong');
+                            
+                            // تشغيل صوت الإجابة الخاطئة
+                            playSound('wrong');
+                        }
+                    });
+                    
+                    // إظهار التغذية الراجعة الفورية للإجابة الصحيحة
+                    const instantFeedback = document.getElementById(`instant-feedback-${questionIndex}`);
+                    instantFeedback.classList.add('show');
+                    
+                    // إظهار زر التغذية الراجعة للخيارات الخاطئة
+                    const wrongFeedbackBtn = document.getElementById(`wrong-feedback-btn-${questionIndex}`);
+                    wrongFeedbackBtn.style.display = 'flex';
+                    
+                    // إذا كانت الإجابة خاطئة، إظهار منطقة التغذية الراجعة للخيارات الخاطئة تلقائياً
+                    if (optionIndex !== correctIndex) {
+                        setTimeout(() => {
+                            const wrongFeedbackArea = document.getElementById(`wrong-feedback-${questionIndex}`);
+                            wrongFeedbackArea.classList.add('show');
+                            const isEnglish = language.value === 'en';
+                            wrongFeedbackBtn.innerHTML = `<i class="fas fa-chevron-up"></i> ${isEnglish ? 'Hide Wrong Answers Explanation' : 'إخفاء تفسير الإجابات الخاطئة'}`;
+                        }, 500);
+                    }
+                });
+            });
+        }
+        
+        // دالة تبديل عرض التغذية الراجعة للخيارات الخاطئة
+        function toggleWrongFeedback(questionIndex) {
+            const wrongFeedbackArea = document.getElementById(`wrong-feedback-${questionIndex}`);
+            const wrongFeedbackBtn = document.getElementById(`wrong-feedback-btn-${questionIndex}`);
+            const isEnglish = language.value === 'en';
+            
+            wrongFeedbackArea.classList.toggle('show');
+            
+            // تحديث نص الزر
+            if (wrongFeedbackArea.classList.contains('show')) {
+                wrongFeedbackBtn.innerHTML = `<i class="fas fa-chevron-up"></i> ${isEnglish ? 'Hide Wrong Answers Explanation' : 'إخفاء تفسير الإجابات الخاطئة'}`;
+            } else {
+                wrongFeedbackBtn.innerHTML = `<i class="fas fa-comment-alt"></i> ${isEnglish ? 'Show Wrong Answers Explanation' : 'عرض تفسير الإجابات الخاطئة'}`;
             }
         }
         
-        // عرض السؤال الحالي
-        function renderQuestion() {
-            const q = questions[index];
-            const texts = translations[currentLanguage];
+        // دالة عرض البطاقات التعليمية
+        function renderCards(data) {
+            if (!data || !data.cards || !Array.isArray(data.cards)) {
+                const isEnglish = language.value === 'en';
+                showMessage(isEnglish ? 
+                    "No cards found in received data" : 
+                    "لم يتم العثور على بطاقات في البيانات المستلمة", 
+                'error');
+                return;
+            }
             
-            // حساب التقدم
-            const progressPercent = ((index + 1) / totalQuestions) * 100;
+            const isEnglish = language.value === 'en';
             
-            // إعداد تغذية راجعة للخيارات الخاطئة
-            currentQuestionWrongFeedbacks = [];
-            q.options.forEach((option, i) => {
-                if (i !== q.answer) {
-                    currentQuestionWrongFeedbacks.push({
-                        option: option,
-                        explanation: q.explanations[i]
+            window.cards = data.cards;
+            window.cardIndex = 0;
+            
+            out.innerHTML = `
+                <div class="flashcard" onclick="flipCard()">
+                    <div class="flashcard-front">${data.cards[0].front}</div>
+                    <div class="flashcard-back hidden">${data.cards[0].back}</div>
+                    <div class="flashcard-counter">${cardIndex + 1} / ${data.cards.length}</div>
+                </div>
+                
+                <div class="flashcard-nav">
+                    <button class="flashcard-btn" onclick="prevCard()">
+                        <i class="fas fa-arrow-right"></i> ${isEnglish ? 'Previous' : 'السابق'}
+                    </button>
+                    <button class="flashcard-btn" onclick="flipCard()">
+                        <i class="fas fa-sync-alt"></i> ${isEnglish ? 'Flip Card' : 'قلب البطاقة'}
+                    </button>
+                    <button class="flashcard-btn" onclick="nextCard()">
+                        <i class="fas fa-arrow-left"></i> ${isEnglish ? 'Next' : 'التالي'}
+                    </button>
+                </div>
+            `;
+        }
+        
+        // دالة قلب البطاقة
+        function flipCard() {
+            const card = document.querySelector('.flashcard');
+            const front = card.querySelector('.flashcard-front');
+            const back = card.querySelector('.flashcard-back');
+            
+            front.classList.toggle('hidden');
+            back.classList.toggle('hidden');
+            
+            // إضافة تأثير التحريك
+            card.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                card.style.transform = 'scale(1)';
+            }, 150);
+        }
+        
+        // دالة البطاقة التالية
+        function nextCard() {
+            cardIndex = (cardIndex + 1) % cards.length;
+            updateCard();
+        }
+        
+        // دالة البطاقة السابقة
+        function prevCard() {
+            cardIndex = (cardIndex - 1 + cards.length) % cards.length;
+            updateCard();
+        }
+        
+        // دالة تحديث البطاقة
+        function updateCard() {
+            const card = document.querySelector('.flashcard');
+            const front = card.querySelector('.flashcard-front');
+            const back = card.querySelector('.flashcard-back');
+            const counter = card.querySelector('.flashcard-counter');
+            
+            front.textContent = cards[cardIndex].front;
+            back.textContent = cards[cardIndex].back;
+            counter.textContent = `${cardIndex + 1} / ${cards.length}`;
+            
+            // التأكد من إظهار الوجه الأمامي
+            back.classList.add('hidden');
+            front.classList.remove('hidden');
+            
+            // إضافة تأثير التحريك
+            card.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                card.style.transform = 'scale(1)';
+            }, 150);
+        }
+        
+        // دالة عرض التلخيص
+        function renderSummary(text) {
+            // تحويل النص إلى نقاط منسقة
+            const paragraphs = text.split('\n').filter(p => p.trim().length > 0);
+            let summaryHTML = '<div class="summary">';
+            
+            const isEnglish = language.value === 'en';
+            summaryHTML += `<div class="summary-title"><i class="fas fa-scroll"></i> ${isEnglish ? 'Summary' : 'التلخيص'}</div>`;
+            
+            paragraphs.forEach((paragraph, idx) => {
+                const pointClass = `point-${(idx % 7) + 1}`;
+                const iconClass = getIconForSummaryPoint(idx);
+                
+                summaryHTML += `
+                    <div class="summary-point ${pointClass}">
+                        <i class="${iconClass}"></i>
+                        <div class="summary-point-text">${paragraph}</div>
+                    </div>
+                `;
+            });
+            
+            summaryHTML += '</div>';
+            out.innerHTML = summaryHTML;
+        }
+        
+        // دالة للحصول على الأيقونة المناسبة لنقطة التلخيص
+        function getIconForSummaryPoint(index) {
+            const icons = [
+                'fas fa-lightbulb',
+                'fas fa-chart-line',
+                'fas fa-check-circle',
+                'fas fa-exclamation-circle',
+                'fas fa-question-circle',
+                'fas fa-star',
+                'fas fa-flag'
+            ];
+            return icons[index % icons.length];
+        }
+        
+        // دالة لعرض رسالة
+        function showMessage(text, type = 'info') {
+            out.innerHTML = `
+                <div class="message ${type}">
+                    <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                    ${text}
+                </div>
+            `;
+        }
+        
+        // دالة لعرض مؤشر التحميل
+        function showLoading() {
+            const isEnglish = language.value === 'en';
+            out.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <div class="loading-text">${isEnglish ? 'Processing...' : 'جارٍ المعالجة...'}</div>
+                </div>
+            `;
+        }
+        
+        // دالة لاستخراج JSON من النص
+        function extractJSON(text) {
+            try {
+                // محاولة تحليل النص مباشرة كـ JSON
+                return JSON.stringify(JSON.parse(text));
+            } catch (e) {
+                // البحث عن JSON في النص
+                const match = text.match(/\{[\s\S]*\}/);
+                return match ? match[0] : '{"questions":[]}';
+            }
+        }
+        
+        // دالة لتشغيل الصوت
+        function playSound(type) {
+            try {
+                if (type === 'correct') {
+                    correctSound.currentTime = 0;
+                    correctSound.play();
+                } else if (type === 'wrong') {
+                    wrongSound.currentTime = 0;
+                    wrongSound.play();
+                }
+            } catch (e) {
+                console.log('تعذر تشغيل الصوت:', e);
+            }
+        }
+        
+        // تهيئة أولية
+        document.addEventListener('DOMContentLoaded', function() {
+            // إضافة تأثير للعناصر عند التحميل
+            document.querySelectorAll('.control-card, .header').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100);
+            });
+            
+            // إضافة حدث للنقر على منطقة التحميل
+            document.querySelector('.file-upload-area').addEventListener('click', function(e) {
+                if (e.target.closest('.upload-option-btn')) {
+                    return; // لا تفعل شيئاً إذا تم النقر على زر الخيار
+                }
+                
+                if (currentUploadType === 'image') {
+                    imageInput.click();
+                } else {
+                    fileInput.click();
+                }
+            });
+            
+            // تحديث التعليمات الافتراضية
+            const fileMessage = document.getElementById('file-message');
+            if (fileMessage) {
+                fileMessage.innerHTML = '<i class="fas fa-file"></i> يمكنك رفع ملفات نصية أو PDF أو Word أو صور';
+                fileMessage.classList.add('success');
+                fileMessage.style.display = 'block';
+            }
+            
+            // تحسين تجربة المستخدم على الهواتف
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                document.body.classList.add('mobile-device');
+                
+                // منع التكبير عند النقر على المدخلات
+                const inputs = document.querySelectorAll('input, textarea, select');
+                inputs.forEach(input => {
+                    input.addEventListener('focus', () => {
+                        setTimeout(() => {
+                            document.body.style.transform = 'scale(1)';
+                        }, 100);
+                    });
+                });
+            }
+            
+            // توقف عن تشغيل الكاميرا عند إغلاق الصفحة
+            window.addEventListener('beforeunload', function() {
+                if (stream) {
+                    stream.getTracks().forEach(track => {
+                        track.stop();
                     });
                 }
-            });
-            
-            let html = `
-                <div class="progress-container">
-                    <div class="progress-bar" style="width: ${progressPercent}%"></div>
-                    <div class="progress-info">
-                        <span>${texts.questionOf} ${index + 1} ${texts.of} ${totalQuestions}</span>
-                        <span>${Math.round(progressPercent)}%</span>
-                    </div>
-                </div>
-                
-                <div class="result-box">
-                    <h2 style="color: var(--primary); margin-bottom: 30px;">${q.q}</h2>
-            `;
-            
-            q.options.forEach((option, i) => {
-                let cardClass = "option-card";
-                
-                if (answers[index] !== null) {
-                    if (i === q.answer) {
-                        cardClass += " correct";
-                        // إظهار التغذية الراجعة للخيار الصحيح فقط
-                        cardClass += " show-feedback";
-                    } else if (i === answers[index]) {
-                        cardClass += " incorrect";
-                    }
-                } else if (i === answers[index]) {
-                    cardClass += " selected";
-                }
-                
-                // استخدام أرقام عربية أو إنجليزية بناءً على اللغة
-                const optionNumber = currentLanguage === 'ar' ? 
-                    String.fromCharCode(1632 + i + 1) : 
-                    (i + 1);
-                
-                html += `
-                    <div class="${cardClass}" onclick="choose(${i})">
-                        <div style="display: flex; align-items: center;">
-                            <div class="option-number">${optionNumber}</div>
-                            <div style="font-size: 1.1rem; font-weight: 500;">${option}</div>
-                        </div>
-                        <div class="feedback">${q.explanations[i]}</div>
-                    </div>
-                `;
-            });
-            
-            // زر عرض شرح الإجابات الخاطئة (يظهر فقط بعد الإجابة)
-            if (answers[index] !== null && currentQuestionWrongFeedbacks.length > 0) {
-                html += `
-                    <button class="btn btn-wrong-answers" onclick="toggleWrongAnswers()" id="wrongAnswersBtn">
-                        <i class="fas fa-lightbulb"></i>
-                        ${texts.showWrongAnswers}
-                    </button>
-                    
-                    <div class="wrong-feedback" id="wrongAnswersContainer">
-                        <h4 style="color: var(--warning); margin-bottom: 10px;">${texts.wrongAnswersTitle}</h4>
-                `;
-                
-                currentQuestionWrongFeedbacks.forEach((feedback, i) => {
-                    const optionNumber = currentLanguage === 'ar' ? 
-                        String.fromCharCode(1632 + i + 2) : 
-                        (i + 2);
-                    
-                    html += `
-                        <div style="margin-bottom: 10px;">
-                            <strong>${optionNumber}. ${feedback.option}:</strong>
-                            <p style="margin-top: 5px; color: #555;">${feedback.explanation}</p>
-                        </div>
-                    `;
-                });
-                
-                html += `</div>`;
-            }
-            
-            html += `</div>`;
-            
-            document.getElementById('result').innerHTML = html;
-            
-            // تحديث نص زر التالي
-            const nextBtnText = document.getElementById('nextBtnText');
-            if (index === totalQuestions - 1) {
-                nextBtnText.textContent = texts.finishBtnText;
-            } else {
-                nextBtnText.textContent = texts.nextBtnText;
-            }
-        }
-        
-        // تبديل عرض/إخفاء شرح الإجابات الخاطئة
-        function toggleWrongAnswers() {
-            const container = document.getElementById('wrongAnswersContainer');
-            const btn = document.getElementById('wrongAnswersBtn');
-            const texts = translations[currentLanguage];
-            
-            if (container.classList.contains('show')) {
-                container.classList.remove('show');
-                btn.innerHTML = `<i class="fas fa-lightbulb"></i> ${texts.showWrongAnswers}`;
-            } else {
-                container.classList.add('show');
-                btn.innerHTML = `<i class="fas fa-times"></i> ${texts.hideWrongAnswers}`;
-            }
-        }
-        
-        // اختيار إجابة
-        function choose(i) {
-            if (answers[index] !== null) return;
-            
-            answers[index] = i;
-            const q = questions[index];
-            const texts = translations[currentLanguage];
-            
-            // تشغيل الصوت المناسب
-            if (i === q.answer) {
-                correctSound.currentTime = 0;
-                correctSound.play().catch(e => console.log("Audio play failed:", e));
-                showNotification(texts.correctNotification, 'correct');
-            } else {
-                incorrectSound.currentTime = 0;
-                incorrectSound.play().catch(e => console.log("Audio play failed:", e));
-                showNotification(texts.incorrectNotification, 'incorrect');
-            }
-            
-            // إعادة عرض السؤال مع التصحيح
-            setTimeout(() => {
-                renderQuestion();
-            }, 300);
-        }
-        
-        // الانتقال للسؤال التالي
-        function nextQuestion() {
-            const texts = translations[currentLanguage];
-            
-            if (answers[index] === null) {
-                alert(texts.chooseAnswer);
-                return;
-            }
-            
-            // تشغيل صوت الانتقال
-            nextSound.currentTime = 0;
-            nextSound.play().catch(e => console.log("Audio play failed:", e));
-            
-            if (index < totalQuestions - 1) {
-                index++;
-                renderQuestion();
-            } else {
-                // تشغيل صوت الانتهاء
-                completeSound.currentTime = 0;
-                completeSound.play().catch(e => console.log("Audio play failed:", e));
-                
-                // حساب النتيجة النهائية
-                let correctCount = 0;
-                answers.forEach((answer, i) => {
-                    if (answer === questions[i].answer) {
-                        correctCount++;
-                    }
-                });
-                
-                const scorePercent = Math.round((correctCount / totalQuestions) * 100);
-                let message = "";
-                
-                if (scorePercent >= 90) {
-                    message = texts.excellent;
-                } else if (scorePercent >= 70) {
-                    message = texts.veryGood;
-                } else if (scorePercent >= 50) {
-                    message = texts.good;
-                } else {
-                    message = texts.needsImprovement;
-                }
-                
-                document.getElementById('result').innerHTML = `
-                    <div class="result-box">
-                        <h2 style="color: var(--primary); margin-bottom: 30px;">${texts.resultTitle}</h2>
-                        
-                        <div class="score-circle">
-                            <div class="score-value">${currentLanguage === 'ar' ? correctCount : correctCount}</div>
-                            <div class="score-total">${texts.of} ${currentLanguage === 'ar' ? totalQuestions : totalQuestions}</div>
-                        </div>
-                        
-                        <div class="result-message">${message}</div>
-                        
-                        <p style="margin-bottom: 25px; font-size: 1.1rem;">${texts.successRate} <strong>${scorePercent}%</strong></p>
-                        
-                        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
-                            <button class="btn btn-secondary" onclick="index = 0; answers = new Array(questions.length).fill(null); renderQuestion();">
-                                <i class="fas fa-redo"></i>
-                                ${texts.retryTest}
-                            </button>
-                            <button class="btn btn-primary" onclick="showTab('manual')">
-                                <i class="fas fa-plus"></i>
-                                ${texts.newTest}
-                            </button>
-                        </div>
-                    </div>
-                `;
-                
-                document.getElementById('nextBtnContainer').style.display = 'none';
-            }
-        }
-        
-        // دالة مساعدة للتبديل بين التبويبات
-        function showTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.getAttribute('data-tab') === tabName) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            
-            document.getElementById(`${tabName}-tab`).classList.add('active');
-            document.getElementById('result').innerHTML = '';
-            document.getElementById('nextBtnContainer').style.display = 'none';
-        }
-        
-        // بدء التطبيق
-        document.addEventListener('DOMContentLoaded', function() {
-            // تحديث اللغة الافتراضية
-            updateLanguage();
-            
-            // إضافة تأثيرات للعناصر
-            document.querySelectorAll('.btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    this.classList.add('pulse');
-                    setTimeout(() => {
-                        this.classList.remove('pulse');
-                    }, 300);
-                });
             });
         });
     </script>
